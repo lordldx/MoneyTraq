@@ -1,0 +1,65 @@
+indicator: submit
+id: listingForm
+
+elements:
+        - type: Fieldset
+          legend: Selection
+          elements:
+                - type: Select
+                  name: transaction_type
+                  label: Transaction type
+                  multiple: 1
+                  size: 3
+
+                - type: Select
+                  name: account
+                  label: Account
+                  multiple: 1
+                  size: 3
+
+                - type: Fieldset
+                  legend: Valid
+                  elements:
+                        - type: Text
+                          name: dat_valid_from
+                          label: between
+                          constraints:
+                                - type: DateTime
+                                  parser:
+                                        strptime: "%d/%m/%Y"
+                          inflators:
+                                - type: DateTime
+                                  parser:
+                                        strptime: "%d/%m/%Y"
+                          deflators:
+                                - type: Strftime
+                                  strftime: "%d/%m/%Y"
+
+                        - type: Text
+                          name: dat_valid_until
+                          label: and
+                          constraints:
+                                - type: DateTime
+                                  parser:
+                                        strptime: "%d/%m/%Y"
+                          inflators:
+                                - type: DateTime
+                                  parser:
+                                        strptime: "%d/%m/%Y"
+                          deflators:
+                                - type: Strftime
+                                  strftime: "%d/%m/%Y"
+
+                - type: Select
+                  name: attributes
+                  label: Transaction attributes
+                  multiple: 1
+                  size: 3
+
+                - type: Submit
+                  name: submit
+                  value: Generate
+
+filter:
+        - TrimEdges
+        - HTMLEscape

@@ -1,0 +1,15 @@
+<!-- -*- mode: xml -*- -->
+[% META title = 'MoneyTraq::Transaction' %]
+
+<script type="text/javascript">
+  $(document).ready(function () {
+  $("input[name='dat_valid']").datepick({dateFormat: 'dd/mm/yy'});
+
+  [% IF c.action == 'transactions/add' -%]
+    $("input[name='description']").focus();
+  [% END -%]
+
+  });
+</script>
+
+[% form %]

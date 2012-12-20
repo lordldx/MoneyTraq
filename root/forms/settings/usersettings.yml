@@ -1,0 +1,112 @@
+id: settingsform
+elements:
+        - type: Fieldset
+          legend: Personal info
+          elements:
+                - type: Text
+                  name: first_name
+                  id: first_name
+                  label: First name
+                
+                - type: Block
+                  id: first_name_error
+                  attributes:
+                        class: error
+
+                - type: Text
+                  name: last_name
+                  id: last_name
+                  label: Last name
+
+                - type: Block
+                  id: last_name_error
+                  attributes:
+                        class: error
+
+                - type: Button
+                  name: btnSavePersonalInfo
+                  value: Save
+                  attributes:
+                        onclick: submitPersonalInfo()
+
+        - type: Fieldset
+          legend: Defaults
+          elements:
+                - type: Select
+                  id: default_source_account
+                  name: default_source_account
+                  label: Default source account
+
+                - type: Block
+                  id: default_source_account_error
+                  attributes:
+                        class: error
+
+                - type: Select
+                  id: default_target_account
+                  name: default_target_account
+                  label: Default target account
+
+                - type: Block
+                  id: default_target_account_error
+                  attributes:
+                        class: error
+
+                - type: Select
+                  id: default_transaction_type
+                  name: default_transaction_type
+                  label: Default transaction type
+
+                - type: Block
+                  id: default_transaction_type_error
+                  attributes:
+                        class: error
+
+                - type: Button
+                  name: btnSaveDefaults
+                  value: Save
+                  attributes:
+                        onclick: submitDefaults()
+
+        - type: Fieldset
+          legend: Change password
+          elements:
+                - type: Password
+                  id: old_pwd
+                  name: old_pwd
+                  label: Old password
+
+                - type: Block
+                  id: old_pwd_error
+                  attributes:
+                        class: error
+
+                - type: Password
+                  id: new_pwd_1
+                  name: new_pwd_1
+                  label: New password
+
+                - type: Block
+                  id: new_pwd_1_error
+                  attributes:
+                        class: error
+
+                - type: Password
+                  id: new_pwd_2
+                  name: new_pwd_2
+                  label: Retype new password
+
+                - type: Block
+                  id: new_pwd_2_error
+                  attributes:
+                        class: error
+
+                - type: Button
+                  name: btnSavePassword
+                  value: Save
+                  attributes:
+                        onclick: submitPassword()
+
+filter:
+        - TrimEdges
+        - HTMLEscape

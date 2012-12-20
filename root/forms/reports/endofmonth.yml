@@ -1,0 +1,47 @@
+indicator: submit
+id: eomform
+
+elements:
+        - type: Select
+          name: month
+          options:
+                - [ 1, January ]
+                - [ 2, February ]
+                - [ 3, March ]
+                - [ 4, April ]
+                - [ 5, May ]
+                - [ 6, June ]
+                - [ 7, July ]
+                - [ 8, August ]
+                - [ 9, September ]
+                - [ 10, October ]
+                - [ 11, November ]
+                - [ 12, December ]
+          constraints:
+                - Required
+          attributes:
+                class: eomfield
+
+        - type: Select
+          name: year
+          options:
+                - [ 2009, 2009 ]
+                - [ 2010, 2010 ]
+                - [ 2011, 2011 ]
+                - [ 2012, 2012 ]
+                - [ 2013, 2013 ]
+                - [ 2014, 2014 ]
+                - [ 2015, 2015 ]
+          constraints:
+                - Required
+          attributes:
+                class: eomfield
+
+        - type: Submit
+          name: submit
+          value: Generate
+          attributes:
+                class: eomfield
+
+filter:
+        - HTMLEscape

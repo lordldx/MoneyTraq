@@ -1,0 +1,38 @@
+indicator: submit
+id: transaction_details_form
+
+elements:
+        - type: Select
+          name: account
+          label: Source account
+          constraints:
+                - Required
+
+        - type: Text
+          name: amount
+          label: Amount
+          constraints:
+                - Required
+                - Number
+                - type: Range
+                  min: 0.01
+
+        - type: Submit
+          name: submit
+          id: submit
+          value: Submit
+
+        - type: Hidden
+          name: submit_plus_new
+          id: submit_plus_new
+          value: 0
+
+        - type: Button
+          name: btnSubmitPlusNew
+          value: Submit + new
+          attributes:
+                onclick: submitPlusNew()
+
+filter:
+        - TrimEdges
+        - HTMLEscape
