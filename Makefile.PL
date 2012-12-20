@@ -3,12 +3,21 @@
 use inc::Module::Install;
 
 name 'MoneyTraq';
-all_from 'lib\MoneyTraq.pm';
+all_from 'lib/MoneyTraq.pm';
 
 requires 'Catalyst::Runtime' => '5.7015';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Action::RenderView';
+requires 'Catalyst::Plugin::DateTime';
+requires 'Catalyst::Plugin::Session::State::Cookie';
+requires 'Catalyst::Plugin::Session::Store::File';
+requires 'Catalyst::Plugin::Authorization::ACL';
+requires 'Catalyst::Plugin::StackTrace';
+requires 'Catalyst::Authentication::Store::DBIx::Class';
+requires 'Catalyst::View::TT';
+requires 'Catalyst::Controller::HTML::FormFu';
+requires 'DateTime::Format::SQLite';
 requires 'parent';
 requires 'Config::General'; # This should reflect the config file format you've chosen
                  # See Catalyst::Plugin::ConfigLoader for supported formats
