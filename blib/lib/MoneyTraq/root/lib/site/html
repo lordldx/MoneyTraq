@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>[% template.title or site.title %]</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="[% c.uri_for('/static/script/jquery-1.3.1.min.js') %]"></script>
     <script type="text/javascript" src="[% c.uri_for('/static/script/jquery.datepick.js') %]"></script>
     <script type="text/javascript" src="[% c.uri_for('/static/script/jquery.layout.js') %]"></script>
     <script type="text/javascript" src="[% c.uri_for('/static/script/toggle.js') %]"></script>

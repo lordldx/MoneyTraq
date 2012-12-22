@@ -1,0 +1,9 @@
+<!-- -*- mode: xml -*- -->
+<div class="ui-layout-north">[% PROCESS site/header %]</div>
+<div class="ui-layout-south">[% PROCESS site/footer %]</div>
+<div class="ui-layout-west">[% PROCESS site/nav %]</div>
+<div class="ui-layout-center">
+  <span class="message">[% message -%]</span>
+  <span class="error">[% error -%]</span>
+  [% content -%]
+</div>

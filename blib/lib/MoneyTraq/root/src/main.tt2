@@ -1,0 +1,129 @@
+<!-- -*- mode: xml -*- -->
+[% META title = 'MoneyTraq::Main' -%]
+<script>
+  $(document).ready(function () {
+  $(".transactiondetails").hide();
+  $("#data").flexigrid({
+  height: 'auto',
+  width: [% main.tablewidth -%],
+  striped: false,
+  title: "Transactions in [% period.month_name -%] [% period.year -%]",
+  buttons: [{name: 'New transaction', bclass: 'add', onpress: addTransaction }],
+  colModel: [
+  {display: 'Valid on', name : 'dat_valid', width : 150, sortable : false, align: 'center'},
+  {display: 'Type', name : 'type', width : 50, sortable : false, align: 'center'},
+  {display: 'Description', name : 'description', width : 150, sortable : false, align: 'left'},
+  {display: 'Target account', name : 'target_account', width : 150, sortable : false, align: 'left'},
+  {display: 'Total amount', name : 'total_amount', width : 100, sortable : false, align: 'center'},
+  {display: 'Attributes', name : 'attributes', width : 150, sortable : false, align: 'left'},
+  {display: '', name : 'add_detail', width : 75, sortable : false, align: 'center'},
+  {display: '', name : 'edit', width : 40, sortable : false, align: 'center'},
+  {display: '', name : 'delete', width : 55, sortable : false, align: 'center'}
+  ],
+  resizable: false,
+  showToggleBtn: false
+  });
+  });
+
+  function addTransaction() {
+    document.location = "[% c.uri_for("/transactions/add") %]";
+  }
+</script>
+<h1>Welcome, [% c.user.first_name %]</h1>
+<table border="0" style="width: [% main.tablewidth -%];">
+  <tr>
+    <td style="text-align: left;"><a href="[% c.uri_for("/main/$prev.month/$prev.year") -%]">&lt;&lt; Previous month</a></td>
+    <td style="text-align: right;"><a href="[% c.uri_for("/main/$next.month/$next.year") -%]">Next month &gt;&gt;</a></td>
+  </tr>
+</table>
+<table id="data" class="flexigrid">
+  <tbody>
+    [% FOREACH transaction IN transactions %]
+    [% IF transaction.id == new_id %]
+    [% extra_class = "new" %]
+    [% ELSE %]
+    [% extra_class = "" %]
+    [% END %]
+    <tr onclick="toggle([% transaction.id %]);" class="transaction [% transaction.type.description %] [% extra_class %]" id="transaction_[% transaction.id %]">
+      <td class="transactionData">[% transaction.dat_valid.day_name %] [% transaction.dat_valid_hr | html %]</td>
+      <td class="transactionData">[% transaction.type.description %]</td>
+      <td class="transactionData">[% transaction.description %]</td>
+      <td class="transactionData">[% transaction.account.description %]</td>
+      <td class="transactionData">&euro; [% transaction.total %]</td>
+      <td class="transactionData">
+        [% attribs = [] -%]
+        [% FOREACH attribute IN transaction.attributes -%]
+        [% attribs.push(attribute.description) -%]
+        [% END -%]
+        [% attribs.join(', ') -%]
+      </td>
+      [% # IF transaction.user_id == c.user.id -%]            
+      <td><div class="buttonwrapper"><a href="[% c.uri_for("/transactiondetails/add/$transaction.id") -%]" class="squarebutton"><span>Add detail</span></a></div></td>
+      <td><div class="buttonwrapper"><a href="[% c.uri_for("/transactions/edit/$transaction.id") %]" class="squarebutton"><span>Edit</span></a></div></td>
+      <td><div class="buttonwrapper"><a href="[% c.uri_for("/transactions/delete/$transaction.id") %]" class="squarebutton"><span>Delete</span></a></div></td>
+      [% # ELSE %]
+<!--      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td> -->
+      [% # END %]
+    </tr>
+    [% IF transaction.details.size > 0 %]
+    [% FOREACH detail IN transaction.details %]
+    <tr class="transactiondetails transactiondetails[% transaction.id %]">
+      <td class="transactionData">&nbsp;</td>
+      <td class="transactionData">&nbsp;</td>
+      <td class="transactionData">Source account:</td>
+      <td class="transactionData">[% detail.account.description %]</td>
+      <td class="transactionData">&euro; [% detail.amount %]</td>
+      <td class="transactionData">&nbsp;</td>
+      <td>&nbsp;</td>
+      [% # IF transaction.user_id == c.user.id %]
+      <td><div class="buttonwrapper"><a class="squarebutton" href="[% c.uri_for("/transactiondetails/edit/$detail.id") %]"><span>Edit</span></a></div></td>
+      <td><div class="buttonwrapper"><a class="squarebutton" href="[% c.uri_for("/transactiondetails/delete/$detail.id") %]"><span>Delete</span></a></div></td>
+      [% # ELSE %]
+<!--      <td>&nbsp;</td>
+      <td>&nbsp;</td> -->
+      [% # END %]
+    </tr>
+    [% END %]
+    [% END %]
+    [% END %]
+    <tr class="TotalRow">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>Total income:</td>
+      <td>&euro; [% total_in %]</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr class="TotalRow">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>Total expense:</td>
+      <td>&euro; [% total_out %]</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+<table border="0" style="width: [% main.tablewidth -%];">
+  <tr>
+    <td style="text-align: center;">
+      [% IF c.action == 'main/index' %]
+      <a href="[% c.uri_for("/main/all/$period.month/$period.year") -%]">
+        Show all transactions in [% period.month_name -%] [% period.year -%]
+      </a>
+      [% ELSIF c.action == 'main/all' %]
+      <a href="[% c.uri_for("/main/$period.month/$period.year") -%]">
+        Show only 10 most recent transactions in [% period.month_name -%] [% period.year -%]
+      </a>
+      [% END %]
+    </td>
+  </tr>
+</table>

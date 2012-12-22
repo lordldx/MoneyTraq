@@ -1,0 +1,11 @@
+INSTALL
+=======
+
+To install MoneyTraq you need a few things.
+
+* A perl 5 installation
+* An installation of Module::Install::Catalyst (cpan install Module::Install::Catalyst)
+* perl Makefile.PL
+* Run make to install all the modules you need to run
+
+You also have to prepare a database in your root folder (not the folder with the name root). You have to create a SQLite database with the name MoneyTraq.db. In this database you run db/moneytraq-schema.sql.

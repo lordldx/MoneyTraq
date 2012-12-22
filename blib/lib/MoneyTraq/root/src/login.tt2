@@ -1,0 +1,10 @@
+<!-- -*- mode: xml *-* -->
+[% META title = 'MoneyTraq::Login' %]
+
+<script type="text/javascript">
+  $('document').ready(function() {
+  $('#username').focus();
+  });
+</script>
+
+[% form %]

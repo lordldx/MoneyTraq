@@ -1,0 +1,92 @@
+
+h1.title {
+    padding: 4px;
+    margin: 0px;
+    text-align: center;
+}
+
+.message {
+    color: [% site.col.message %];
+}
+
+.error {
+    color: [% site.col.error %];
+}
+
+input {
+      display: block;
+}
+
+select 
+{
+       display: block;
+}
+
+.login_submit {
+        margin-top: .5em;
+        display: block;
+}
+
+#login_data {
+            width: 100%;
+            text-align: right;
+}
+
+#copyright {
+           width: 100%;
+           text-align: center;
+}
+
+.transaction
+{
+        cursor: pointer;
+}
+
+.transactionData
+{
+        padding-top: 4px;
+}
+
+#eomform
+{
+        width: 100%;
+        height: 1.5em;
+        margin-bottom: 0;
+}
+
+.eomfield
+{
+        float: left;
+        margin-right: 5px;
+}
+
+.Income
+{
+        background-color: #CAF1CD;
+}
+
+.Expense
+{
+        background-color: #F9C7C7;
+}
+
+.new
+{
+        font-weight: bold;
+}
+
+.TotalRow
+{
+        font-weight: bold;
+        background-color: #E5E5E5;
+}
+
+#newTransaction
+{
+        display: none;
+}
+
+#newTransactionDetail
+{
+        display: none;
+}
