@@ -6,6 +6,6 @@ perl:
   - "5.12"
   - "5.10"
 before_install: 
-	- "cpanm -i --notest Module::Install::Catalyst"
-	- "cpanm -i --notest Catalyst::Devel"
-after_failure: cat /home/travis/.cpanm/build.log 
+  - 'cpanm -i --notest Module::Install::Catalyst'
+  - 'cpanm -i --notest Catalyst::Devel'
+after_failure: 'cat /home/travis/.cpanm/build.log'
