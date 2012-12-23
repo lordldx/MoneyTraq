@@ -7,3 +7,4 @@ perl:
   - "5.10"
 #install: "perl Makefile.PL; make"
 install: 'cpanm --installdeps --notest .'
+after_failure: cat /home/travis/.cpanm/build.log 
