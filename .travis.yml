@@ -5,4 +5,5 @@ perl:
   - "5.14"
   - "5.12"
   - "5.10"
-install: "perl Makefile.PL; make"
+#install: "perl Makefile.PL; make"
+install: 'cpanm --installdeps --notest .'
