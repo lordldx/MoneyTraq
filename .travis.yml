@@ -1,3 +1,4 @@
+# The Travis magic
 language: perl
 perl:
   - "5.16"
