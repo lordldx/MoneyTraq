@@ -41,9 +41,22 @@ sub default :Path {
 sub auto :Private {
   my ($self, $c) = @_;
 
-  return 1 if $c->controller eq $c->controller('Auth') || $c->user_exists;
-  $c->response->redirect($c->uri_for('/auth/login'));
-  return 0;
+  my $proceed = 1;
+
+  if ($c->controller('Setup')->IsNotSetUp) {
+    # if the app has not been setup yet, then set it up!
+    $c->response->redirect($c->uri_for('/setup'));
+    $proceed = 0;
+  }
+
+  if ($c->controller ne $c->controller('Auth') &&
+      !$c->user_exists) {
+    # if the user has nog logged in yet, and the current controller is not the login one (Auth), then redirect to the login page
+    $c->response->redirect($c->uri_for('/auth/login'));
+    $proceed = 0;
+  }
+
+  return $proceed;
 }
 
 =head2 end
