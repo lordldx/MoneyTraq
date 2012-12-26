@@ -1,4 +1,5 @@
 package MoneyTraq::Controller::Setup;
+use Cwd;
 use Moose;
 use namespace::autoclean;
 
@@ -24,7 +25,21 @@ Catalyst Controller.
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->response->body('Matched MoneyTraq::Controller::Setup in Setup.');
+    # Step 1: CreateDB consists of three parts: creating the file, creating the schema and running the init script
+    if (!$self->DbFileExists ||
+        !$self->DbSchemaCreated ||
+        !$self->DbIsInitialized) {
+      $c->response->redirect($c->uri_for('createdb'));
+    }
+}
+
+sub createdb :Local {
+  my ($self, $c) = @_;
+
+  $c->stash->{can_write} = (-w getcwd());
+  $c->stash->{current_user} = getlogin;
+  $c->stash->{current_dir} = getcwd;
+  $c->stash->{template} = 'setup/prerequisites.tt2';
 }
 
 sub IsNotSetUp :Private {

@@ -90,3 +90,45 @@ select
 {
         display: none;
 }
+
+.ok
+{
+    font-weight: bold;
+    color: green;
+}
+
+.not-ok
+{
+    font-weight: bold;
+    color: red;
+}
+
+.monospaced
+{
+    font-family: monospace;
+}
+
+#setup-left
+{
+    height: 100%;
+    padding-top: 2em;
+    width: 150px;
+    padding-right: 10px;
+    border-right: 1px double;
+    float: left;
+}
+
+#setup-right
+{
+    margin-left: 200px;
+}
+
+li.active
+{
+    font-weight: bold;
+}
+
+li.inactive
+{
+    color: grey;
+}

@@ -17,6 +17,7 @@ requires 'Catalyst::Plugin::StackTrace';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'Catalyst::View::TT';
 requires 'Catalyst::Controller::HTML::FormFu';
+requires 'Cwd';
 requires 'DateTime::Format::SQLite';
 requires 'parent';
 requires 'Config::General'; # This should reflect the config file format you've chosen
