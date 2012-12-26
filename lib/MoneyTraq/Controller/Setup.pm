@@ -27,6 +27,46 @@ sub index :Path :Args(0) {
     $c->response->body('Matched MoneyTraq::Controller::Setup in Setup.');
 }
 
+sub IsNotSetUp :Private {
+  my ($self, $c) = @_;
+
+  # is there a dbfile?
+  return 1 unless $self->DbFileExists;
+
+  # has the schema been created?
+  return 1 unless $self->DbSchemaCreated;
+
+  # has the db been initialized ?
+  return 1 unless $self->DbIsInitialized;
+
+  # Does the db contain accounts?
+  return 1 unless $self->DbContainsAccounts;
+
+  # Does the db contain users?
+  return 1 unless $self->DbContainsUsers;
+
+}
+
+sub DbFileExists :Private {
+  return -f 'moneytraq.db';
+}
+
+sub DbSchemaCreated :Private {
+  return 0;
+}
+
+sub DbIsInitialized :Private {
+  return 0;
+}
+
+sub DbContainsUsers :Private {
+  return 0;
+}
+
+sub DbContainsAccounts :Private {
+  return 0;
+}
+
 
 =head1 AUTHOR
 
