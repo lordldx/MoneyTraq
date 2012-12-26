@@ -1,4 +1,4 @@
-<!-- mode: xml -->
+<!-- -*- mode: xml -*- -->
 [% META title = 'MoneyTraq::Setup' -%]
 <div id="setup-left">
   <ul>

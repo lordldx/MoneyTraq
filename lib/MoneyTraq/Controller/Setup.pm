@@ -29,17 +29,31 @@ sub index :Path :Args(0) {
     if (!$self->DbFileExists ||
         !$self->DbSchemaCreated ||
         !$self->DbIsInitialized) {
-      $c->response->redirect($c->uri_for('createdb'));
+      $c->response->redirect($c->uri_for('prerequisites'));
     }
 }
 
-sub createdb :Local {
+sub prerequisites :Local {
   my ($self, $c) = @_;
 
   $c->stash->{can_write} = (-w getcwd());
   $c->stash->{current_user} = getlogin;
   $c->stash->{current_dir} = getcwd;
   $c->stash->{template} = 'setup/prerequisites.tt2';
+}
+
+sub createdb :Local {
+  my ($self, $c) = @_;
+
+  open F, ">moneytraq.db";
+  close F;
+
+  if ($self->DbFileExists) {
+    $c->response->redirect($c->uri_for('createschema'));
+  } else {
+    $c->flash->{error} = "Could not create the database file";
+    $c->response->redirect($c->uri_for('index'));
+  }
 }
 
 sub IsNotSetUp :Private {
