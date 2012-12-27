@@ -1,0 +1,28 @@
+<!-- -*- mode: xml -*- -->
+[% META title = 'MoneyTraq::Setup' -%]
+<div id="setup-left">
+  <ul>
+    <li class="inactive">Create database</li>
+    <li class="active">Create accounts</li>
+    <li class="inactive">Create users</li>
+  </ul>
+</div>
+<div id="setup-right">
+  <h1>Create accounts</h1>
+  <p>Ok! the database was created succesfully! Now you need to create at least on account onto which you can register your transactions.</p>
+  <p>You can create an account for each bank account that you have, but you could also create an account for everybody in your household, or an account for each type of expense you have. It all depends on how you want to work.</p>
+  <p>Fill out the form below and click "create account" to create an account.</p>
+
+  [% form %]
+
+  [% IF accounts.size > 0 %]
+  The accounts that you've already created:
+  <ul>
+    [% FOREACH account IN accounts %]
+    <li>[% account.description | html -%]</li>
+    [% END %]
+  </ul>
+  <a href="[% c.uri_for("createusers") %]">Next</a>
+  [% END %]
+
+</div>

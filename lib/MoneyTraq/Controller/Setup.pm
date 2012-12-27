@@ -5,7 +5,7 @@ use namespace::autoclean;
 use DBIx::Class::Migration;
 use MoneyTraq::Model::MoneyTraqDB;
 
-BEGIN { extends 'Catalyst::Controller'; }
+BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; }
 
 =head1 NAME
 
@@ -60,10 +60,17 @@ sub createdb :Local {
   }
 }
 
-sub createaccounts :Local {
+sub createaccounts :Local :FormConfig {
   my ($self, $c) = @_;
 
-  $c->response->body('createaccounts');
+  my $form = $c->stash->{form};
+
+  if ($form->submitted_and_valid) {
+    $c->model('MoneyTraqDB::Accounts')->create({description => $form->param_value('description')});
+  }
+
+  @{$c->stash->{accounts}} = $c->model('MoneyTraqDB::Accounts')->all;
+  $c->stash->{template} = 'setup/createaccounts.tt2';
 }
 
 sub createusers :Local {
