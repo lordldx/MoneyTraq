@@ -4,6 +4,7 @@ use Moose;
 use namespace::autoclean;
 use DBIx::Class::Migration;
 use MoneyTraq::Model::MoneyTraqDB;
+use MoneyTraq::Schema::Roles;
 
 BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; }
 
@@ -73,10 +74,30 @@ sub createaccounts :Local :FormConfig {
   $c->stash->{template} = 'setup/createaccounts.tt2';
 }
 
-sub createusers :Local {
+sub createusers :Local :FormConfig {
   my ($self, $c) = @_;
 
-  $c->response->body('createusers');
+  my $form = $c->stash->{form};
+
+  if ($form->submitted_and_valid) {
+      my $user = $c->model('MoneyTraqDB::Users')->create({
+	  username => $form->param_value('username'),
+	  password => $form->param_value('password'),
+	  first_name => $form->param_value('first_name'),
+	  last_name => $form->param_value('last_name'),
+	  active => 1
+							 });
+      $user->add_to_roles({id => $form->param_value('role_id')});
+      $user->settings({
+	  default_transaction_type => $form->param_value('default_transaction_type'),
+	  default_target_account => $form->param_value('default_target_account'),
+	  default_source_account => $form->param_value('default_source_account')
+		      });
+  }
+
+  @{$c->stash->{users}} = $c->model('MoneyTraqDB::Users')->all;
+  $c->stash->{has_administrator} = $c->model('MoneyTraqDB::Users')->search_related_rs('user_roles', {role_id => $Roles::ADMIN})->count > 0;
+  $c->stash->{template} = 'setup/createusers.tt2';
 }
 
 sub IsNotSetUp :Private {
