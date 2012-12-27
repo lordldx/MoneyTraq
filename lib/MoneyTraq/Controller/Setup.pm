@@ -2,6 +2,8 @@ package MoneyTraq::Controller::Setup;
 use Cwd;
 use Moose;
 use namespace::autoclean;
+use DBIx::Class::Migration;
+use MoneyTraq::Model::MoneyTraqDB;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -26,10 +28,14 @@ sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
     # Step 1: CreateDB consists of three parts: creating the file, creating the schema and running the init script
-    if (!$self->DbFileExists ||
-        !$self->DbSchemaCreated ||
-        !$self->DbIsInitialized) {
+    if (!$self->DbFileExists) {
       $c->response->redirect($c->uri_for('prerequisites'));
+    } elsif (!$self->DbContainsAccounts($c)) {
+      $c->response->redirect($c->uri_for('createaccounts'));
+    } elsif (!$self->DbContainsUsers($c)) {
+      $c->response->redirect($c->uri_for('createusers'));
+    } else {
+      $c->response->redirect($c->uri_for('/'));
     }
 }
 
@@ -45,55 +51,56 @@ sub prerequisites :Local {
 sub createdb :Local {
   my ($self, $c) = @_;
 
-  open F, ">moneytraq.db";
-  close F;
-
-  if ($self->DbFileExists) {
-    $c->response->redirect($c->uri_for('createschema'));
+  my $migration = DBIx::Class::Migration->new(schema => MoneyTraq::Model::MoneyTraqDB->new->schema);
+  if ($migration->install) {
+    $c->response->redirect($c->uri_for('createaccounts'));
   } else {
     $c->flash->{error} = "Could not create the database file";
     $c->response->redirect($c->uri_for('index'));
   }
 }
 
+sub createaccounts :Local {
+  my ($self, $c) = @_;
+
+  $c->response->body('createaccounts');
+}
+
+sub createusers :Local {
+  my ($self, $c) = @_;
+
+  $c->response->body('createusers');
+}
+
 sub IsNotSetUp :Private {
   my ($self, $c) = @_;
 
-  # is there a dbfile?
+  # has the db been initialized
   return 1 unless $self->DbFileExists;
 
-  # has the schema been created?
-  return 1 unless $self->DbSchemaCreated;
-
-  # has the db been initialized ?
-  return 1 unless $self->DbIsInitialized;
-
   # Does the db contain accounts?
-  return 1 unless $self->DbContainsAccounts;
+  return 1 unless $self->DbContainsAccounts($c);
 
   # Does the db contain users?
-  return 1 unless $self->DbContainsUsers;
+  return 1 unless $self->DbContainsUsers($c);
 
+  return 0;
 }
 
 sub DbFileExists :Private {
   return -f 'moneytraq.db';
 }
 
-sub DbSchemaCreated :Private {
-  return 0;
-}
-
-sub DbIsInitialized :Private {
-  return 0;
-}
-
 sub DbContainsUsers :Private {
-  return 0;
+  my ($self, $c) = @_;
+
+  return $c->model('MoneyTraqDB::Users')->count > 0;
 }
 
 sub DbContainsAccounts :Private {
-  return 0;
+  my ($self, $c) = @_;
+
+  return $c->model('MoneyTraqDB::Accounts')->count > 0;
 }
 
 

@@ -43,7 +43,7 @@ sub auto :Private {
 
   my $proceed = 1;
 
-  if ($c->controller('Setup')->IsNotSetUp) {
+  if ($c->controller('Setup')->IsNotSetUp($c)) {
 
     if ($c->controller ne $c->controller('Setup')) {
       # if the app has not been setup yet, then set it up!

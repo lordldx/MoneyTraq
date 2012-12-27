@@ -1,0 +1,781 @@
+---
+schema:
+  procedures: {}
+  tables:
+    dbix_class_deploymenthandler_versions:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - version
+          match_type: ''
+          name: dbix_class_deploymenthandler_versions_version
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: UNIQUE
+      fields:
+        ddl:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: ddl
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: int
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        upgrade_sql:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: upgrade_sql
+          order: 4
+          size:
+            - 0
+        version:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 1
+          name: version
+          order: 2
+          size:
+            - 50
+      indices: []
+      name: dbix_class_deploymenthandler_versions
+      options: []
+      order: 1
+  triggers: {}
+  views: {}
+translator:
+  add_drop_table: 0
+  filename: ~
+  no_comments: 0
+  parser_args:
+    DBIx::Class::Schema: ~
+    DBIx::Schema: ~
+    package: &1 !!perl/hash:MoneyTraq::Schema
+      class_mappings:
+        DBIx::Class::DeploymentHandler::VersionStorage::Standard::VersionResult: __VERSION
+        MoneyTraq::Model::MoneyTraqDB::Accounts: Accounts
+        MoneyTraq::Model::MoneyTraqDB::Roles: Roles
+        MoneyTraq::Model::MoneyTraqDB::TransactionAttributes: TransactionAttributes
+        MoneyTraq::Model::MoneyTraqDB::TransactionDetails: TransactionDetails
+        MoneyTraq::Model::MoneyTraqDB::TransactionTypes: TransactionTypes
+        MoneyTraq::Model::MoneyTraqDB::Transactions: Transactions
+        MoneyTraq::Model::MoneyTraqDB::TransactionsTransactionAttributes: TransactionsTransactionAttributes
+        MoneyTraq::Model::MoneyTraqDB::UserRoles: UserRoles
+        MoneyTraq::Model::MoneyTraqDB::UserSettings: UserSettings
+        MoneyTraq::Model::MoneyTraqDB::Users: Users
+        MoneyTraq::Schema::Accounts: Accounts
+        MoneyTraq::Schema::Roles: Roles
+        MoneyTraq::Schema::TransactionAttributes: TransactionAttributes
+        MoneyTraq::Schema::TransactionDetails: TransactionDetails
+        MoneyTraq::Schema::TransactionTypes: TransactionTypes
+        MoneyTraq::Schema::Transactions: Transactions
+        MoneyTraq::Schema::TransactionsTransactionAttributes: TransactionsTransactionAttributes
+        MoneyTraq::Schema::UserRoles: UserRoles
+        MoneyTraq::Schema::UserSettings: UserSettings
+        MoneyTraq::Schema::Users: Users
+      source_registrations:
+        Accounts: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            description:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+            id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - description
+          _primaries: &2
+            - id
+          _relationships:
+            transaction_details:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::TransactionDetails
+              cond:
+                foreign.account_id: self.id
+              source: MoneyTraq::Schema::TransactionDetails
+            transactions:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::Transactions
+              cond:
+                foreign.account_id: self.id
+              source: MoneyTraq::Schema::Transactions
+            user_settings_source:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::UserSettings
+              cond:
+                foreign.default_source_account: self.id
+              source: MoneyTraq::Schema::UserSettings
+            user_settings_target:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::UserSettings
+              cond:
+                foreign.default_target_account: self.id
+              source: MoneyTraq::Schema::UserSettings
+          _unique_constraints:
+            primary: *2
+          name: accounts
+          result_class: MoneyTraq::Model::MoneyTraqDB::Accounts
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: Accounts
+        Roles: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            role:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - role
+          _primaries: &3
+            - id
+          _relationships:
+            user_roles:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::UserRoles
+              cond:
+                foreign.role_id: self.id
+              source: MoneyTraq::Schema::UserRoles
+          _unique_constraints:
+            primary: *3
+          name: roles
+          result_class: MoneyTraq::Model::MoneyTraqDB::Roles
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: Roles
+        TransactionAttributes: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            description:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+            id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - description
+          _primaries: &4
+            - id
+          _relationships:
+            transactions_attributes:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::TransactionsTransactionAttributes
+              cond:
+                foreign.transaction_attribute_id: self.id
+              source: MoneyTraq::Schema::TransactionsTransactionAttributes
+          _unique_constraints:
+            primary: *4
+          name: transaction_attributes
+          result_class: MoneyTraq::Model::MoneyTraqDB::TransactionAttributes
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: TransactionAttributes
+        TransactionDetails: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            account_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            amount:
+              data_type: FLOAT
+              is_nullable: 0
+              size: ~
+            id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            transaction_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - transaction_id
+            - account_id
+            - amount
+          _primaries: &5
+            - id
+          _relationships:
+            account:
+              attrs:
+                accessor: single
+                fk_columns:
+                  account_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Accounts
+              cond:
+                foreign.id: self.account_id
+              source: MoneyTraq::Schema::Accounts
+            transaction:
+              attrs:
+                accessor: single
+                fk_columns:
+                  transaction_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Transactions
+              cond:
+                foreign.id: self.transaction_id
+              source: MoneyTraq::Schema::Transactions
+          _unique_constraints:
+            primary: *5
+          name: transaction_details
+          result_class: MoneyTraq::Model::MoneyTraqDB::TransactionDetails
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: TransactionDetails
+        TransactionTypes: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            description:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+            id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - description
+          _primaries: &6
+            - id
+          _relationships:
+            transactions:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::Transactions
+              cond:
+                foreign.transaction_type_id: self.id
+              source: MoneyTraq::Schema::Transactions
+            user_settings:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::UserSettings
+              cond:
+                foreign.default_transaction_type: self.id
+              source: MoneyTraq::Schema::UserSettings
+          _unique_constraints:
+            primary: *6
+          name: transaction_types
+          result_class: MoneyTraq::Model::MoneyTraqDB::TransactionTypes
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: TransactionTypes
+        Transactions: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            account_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            cancelled:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            dat_entry:
+              _ic_dt_method: datetime
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: DATETIME
+              is_nullable: 0
+              size: ~
+            dat_valid:
+              _ic_dt_method: date
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: DATE
+              is_nullable: 0
+              size: ~
+            description:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+            id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            transaction_type_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            user_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - transaction_type_id
+            - account_id
+            - user_id
+            - description
+            - dat_entry
+            - dat_valid
+            - cancelled
+          _primaries: &7
+            - id
+          _relationships:
+            account:
+              attrs:
+                accessor: single
+                fk_columns:
+                  account_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Accounts
+              cond:
+                foreign.id: self.account_id
+              source: MoneyTraq::Schema::Accounts
+            details:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::TransactionDetails
+              cond:
+                foreign.transaction_id: self.id
+              source: MoneyTraq::Schema::TransactionDetails
+            registrar:
+              attrs:
+                accessor: single
+                fk_columns:
+                  user_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Users
+              cond:
+                foreign.id: self.user_id
+              source: MoneyTraq::Schema::Users
+            transaction_attributes:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::TransactionsTransactionAttributes
+              cond:
+                foreign.transaction_id: self.id
+              source: MoneyTraq::Schema::TransactionsTransactionAttributes
+            type:
+              attrs:
+                accessor: single
+                fk_columns:
+                  transaction_type_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::TransactionTypes
+              cond:
+                foreign.id: self.transaction_type_id
+              source: MoneyTraq::Schema::TransactionTypes
+          _unique_constraints:
+            primary: *7
+          name: transactions
+          result_class: MoneyTraq::Model::MoneyTraqDB::Transactions
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: Transactions
+        TransactionsTransactionAttributes: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            transaction_attribute_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            transaction_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - transaction_id
+            - transaction_attribute_id
+          _primaries: &8
+            - transaction_id
+            - transaction_attribute_id
+          _relationships:
+            attributes:
+              attrs:
+                accessor: single
+                fk_columns:
+                  transaction_attribute_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::TransactionAttributes
+              cond:
+                foreign.id: self.transaction_attribute_id
+              source: MoneyTraq::Schema::TransactionAttributes
+            transactions:
+              attrs:
+                accessor: single
+                fk_columns:
+                  transaction_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Transactions
+              cond:
+                foreign.id: self.transaction_id
+              source: MoneyTraq::Schema::Transactions
+          _unique_constraints:
+            primary: *8
+          name: transactions_transaction_attributes
+          result_class: MoneyTraq::Model::MoneyTraqDB::TransactionsTransactionAttributes
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: TransactionsTransactionAttributes
+        UserRoles: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            role_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            user_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - user_id
+            - role_id
+          _primaries: &9
+            - user_id
+            - role_id
+          _relationships:
+            role:
+              attrs:
+                accessor: single
+                fk_columns:
+                  role_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Roles
+              cond:
+                foreign.id: self.role_id
+              source: MoneyTraq::Schema::Roles
+            user:
+              attrs:
+                accessor: single
+                fk_columns:
+                  user_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Users
+              cond:
+                foreign.id: self.user_id
+              source: MoneyTraq::Schema::Users
+          _unique_constraints:
+            primary: *9
+          name: user_roles
+          result_class: MoneyTraq::Model::MoneyTraqDB::UserRoles
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: UserRoles
+        UserSettings: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            default_source_account:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            default_target_account:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            default_transaction_type:
+              _inflate_info:
+                deflate: !!perl/code '{ "DUMMY" }'
+                inflate: !!perl/code '{ "DUMMY" }'
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            user_id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - user_id
+            - default_transaction_type
+            - default_target_account
+            - default_source_account
+          _primaries: &10
+            - user_id
+          _relationships:
+            default_source_account:
+              attrs:
+                accessor: filter
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Accounts
+              cond:
+                foreign.id: self.default_source_account
+              source: MoneyTraq::Schema::Accounts
+            default_target_account:
+              attrs:
+                accessor: filter
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Accounts
+              cond:
+                foreign.id: self.default_target_account
+              source: MoneyTraq::Schema::Accounts
+            default_transaction_type:
+              attrs:
+                accessor: filter
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::TransactionTypes
+              cond:
+                foreign.id: self.default_transaction_type
+              source: MoneyTraq::Schema::TransactionTypes
+            user:
+              attrs:
+                accessor: single
+                fk_columns:
+                  user_id: 1
+                is_foreign_key_constraint: 1
+                undef_on_null_fk: 1
+              class: MoneyTraq::Schema::Users
+              cond:
+                foreign.id: self.user_id
+              source: MoneyTraq::Schema::Users
+          _unique_constraints:
+            primary: *10
+          name: user_settings
+          result_class: MoneyTraq::Model::MoneyTraqDB::UserSettings
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: UserSettings
+        Users: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            active:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            first_name:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+            id:
+              data_type: INTEGER
+              is_nullable: 0
+              size: ~
+            last_name:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+            password:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+            username:
+              data_type: TEXT
+              is_nullable: 0
+              size: ~
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - username
+            - password
+            - first_name
+            - last_name
+            - active
+          _primaries: &11
+            - id
+          _relationships:
+            settings:
+              attrs:
+                accessor: single
+                cascade_delete: 1
+                cascade_update: 1
+              class: MoneyTraq::Schema::UserSettings
+              cond:
+                foreign.user_id: self.id
+              source: MoneyTraq::Schema::UserSettings
+            transactions:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::Transactions
+              cond:
+                foreign.user_id: self.id
+              source: MoneyTraq::Schema::Transactions
+            user_roles:
+              attrs:
+                accessor: multi
+                cascade_copy: 1
+                cascade_delete: 1
+                join_type: LEFT
+              class: MoneyTraq::Schema::UserRoles
+              cond:
+                foreign.user_id: self.id
+              source: MoneyTraq::Schema::UserRoles
+          _unique_constraints:
+            primary: *11
+          name: users
+          result_class: MoneyTraq::Model::MoneyTraqDB::Users
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::ResultSet
+          schema: *1
+          source_name: Users
+        __VERSION: !!perl/hash:DBIx::Class::ResultSource::Table
+          _columns:
+            ddl:
+              data_type: text
+              is_nullable: 1
+            id:
+              data_type: int
+              is_auto_increment: 1
+            upgrade_sql:
+              data_type: text
+              is_nullable: 1
+            version:
+              data_type: varchar
+              size: 50
+          _columns_info_loaded: 0
+          _ordered_columns:
+            - id
+            - version
+            - ddl
+            - upgrade_sql
+          _primaries: &12
+            - id
+          _relationships: {}
+          _unique_constraints:
+            dbix_class_deploymenthandler_versions_version:
+              - version
+            primary: *12
+          name: dbix_class_deploymenthandler_versions
+          result_class: DBIx::Class::DeploymentHandler::VersionStorage::Standard::VersionResult
+          resultset_attributes: {}
+          resultset_class: DBIx::Class::DeploymentHandler::VersionStorage::Standard::VersionResultSet
+          schema: *1
+          source_name: __VERSION
+      storage: !!perl/hash:DBIx::Class::Storage::DBI::SQLite
+        _connect_info:
+          - dsn: dbi:SQLite:moneytraq.db
+            password: ''
+            user: ''
+        _dbh: !!perl/hash:DBI::db {}
+        _dbh_autocommit: 1
+        _dbh_details: {}
+        _dbh_gen: 0
+        _dbi_connect_info:
+          - dbi:SQLite:moneytraq.db
+          - ''
+          - ''
+          - &13
+            AutoCommit: 1
+            PrintError: 0
+            RaiseError: 1
+            ShowErrorStatement: 1
+        _dbic_connect_attributes: *13
+        _driver_determined: 1
+        _in_do_block: 0
+        _sql_maker: ~
+        _sql_maker_opts: {}
+        savepoints: []
+        schema: *1
+        transaction_depth: 0
+    sources:
+      - __VERSION
+  parser_type: SQL::Translator::Parser::DBIx::Class
+  producer_args: {}
+  producer_type: SQL::Translator::Producer::YAML
+  show_warnings: 0
+  trace: 0
+  version: 0.11016

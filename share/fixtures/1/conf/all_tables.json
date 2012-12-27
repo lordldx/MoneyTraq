@@ -1,0 +1,53 @@
+{
+   "sets" : [
+      {
+         "quantity" : "all",
+         "class" : "UserRoles"
+      },
+      {
+         "quantity" : "all",
+         "class" : "TransactionAttributes"
+      },
+      {
+         "quantity" : "all",
+         "class" : "Users"
+      },
+      {
+         "quantity" : "all",
+         "class" : "TransactionTypes"
+      },
+      {
+         "quantity" : "all",
+         "class" : "Accounts"
+      },
+      {
+         "quantity" : "all",
+         "class" : "TransactionsTransactionAttributes"
+      },
+      {
+         "quantity" : "all",
+         "class" : "UserSettings"
+      },
+      {
+         "quantity" : "all",
+         "class" : "TransactionDetails"
+      },
+      {
+         "quantity" : "all",
+         "class" : "Transactions"
+      },
+      {
+         "quantity" : "all",
+         "class" : "Roles"
+      }
+   ],
+   "might_have" : {
+      "fetch" : 0
+   },
+   "belongs_to" : {
+      "fetch" : 0
+   },
+   "has_many" : {
+      "fetch" : 0
+   }
+}

@@ -163,9 +163,15 @@ pip-log.txt
 .DS_Store
 
 
-### Personal
+### Personal ###
+
 # log files
 *.log
+
 # local files
 init.sql
 *.db
+
+# migration files
+share/moneytraq-schema/*
+share/moneytraq-schema.db
