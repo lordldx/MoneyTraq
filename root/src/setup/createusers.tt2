@@ -1,0 +1,37 @@
+<!-- -*- mode: xml -*- -->
+[% META title = 'MoneyTraq::Setup' -%]
+<div id="setup-left">
+  <ul>
+    <li class="inactive">Create database</li>
+    <li class="inactive">Create accounts</li>
+    <li class="active">Create users</li>
+  </ul>
+</div>
+<div id="setup-right">
+  <h1>Create users</h1>
+  <p>Ok! You created some accounts. As a final step, you need to create at least one user. You'll then use that user to log into MoneyTraq and register transactions. It's best that you create a user for each actual person that's going to use MoneyTraq.</p>
+  <p>
+    There are two types of users in MoneyTraq: administrators and regular users.
+    Regular users can create and edit transactions and can request reports.
+    Administrators can also edit the global settings of MoneyTraq (the settings that reflect on all users).
+    You'll need at least one administrator.
+  </p>
+  <p>Fill out the form below and click "create user" to create a user.</p>
+
+  [% form %]
+
+  [% IF users.size > 0 %]
+  The accounts that you've already created:
+  <ul>
+    [% FOREACH user IN users %]
+    <li>[% user.first_name | html -%] [% user.last_name | html %]</li>
+    [% END %]
+  </ul>
+
+  [% IF has_administrator %]  
+  <a href="[% c.uri_for("/") %]">Finish!</a>
+  [% END %]
+
+  [% END %]
+
+</div>
