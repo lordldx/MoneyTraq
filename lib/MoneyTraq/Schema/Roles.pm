@@ -22,5 +22,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->has_many(user_roles => 'MoneyTraq::Schema::UserRoles', 'role_id');
 __PACKAGE__->many_to_many(users => 'user_roles', 'user');
 
+our $ADMIN = 2;
+our $USER = 1;
+
 # You can replace this text with custom content, and it will be preserved on regeneration
 1;

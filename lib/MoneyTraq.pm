@@ -35,7 +35,36 @@ our $VERSION = '0.01';
 # with a external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( name => 'MoneyTraq' );
+__PACKAGE__->config( name => 'MoneyTraq',
+                     'Model::Schema' => {
+                                         traits => ['FromMigration'],
+                                         schema_class => 'MoneyTraq::Schema',
+                                         install_if_needed => {
+                                                               default_fixture_sets => ['all_tables']
+                                                              }
+                                        },
+                     authentication => {
+                                        default_realm => 'dbic',
+                                        realms => {
+                                                   dbic => {
+                                                            credential => {
+                                                                           class => 'Password',
+                                                                           password_field => 'password',
+                                                                           password_type => 'clear'
+                                                                          },
+                                                            store => {
+                                                                      class => 'DBIx::Class',
+                                                                      user_class => 'MoneyTraqDB::Users',
+                                                                      role_relation => 'roles',
+                                                                      role_field => 'role'
+                                                                     }
+                                                           }
+                                                  }
+                                       },
+                     session => {
+                                 flash_to_stash => 1
+                                }
+                   );
 
 # Start the application
 __PACKAGE__->setup();

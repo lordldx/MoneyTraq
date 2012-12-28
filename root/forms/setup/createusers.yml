@@ -1,0 +1,69 @@
+indicator: submit
+id: create_user_form
+
+elements:
+        - type: Text
+          name: username
+          label: Username
+          id: username
+          constraints:
+                - Required
+                - type: Length
+                  max: 25
+
+        - type: Text
+          name: password
+          label: Password
+          constraints:
+                - Required
+                - type: Length
+                  max: 25
+
+        - type: Text
+          name: first_name
+          label: First name
+          constraints:
+                - Required
+                - type: Length
+                  max: 50
+
+        - type: Text
+          name: last_name
+          label: Last name
+          constraints:
+                - Required
+                - type: Length
+                  max: 50
+
+        - type: Select
+          name: role_id
+          label: Role
+          constraints:
+                - type: Integer
+                - Required
+
+        - type: Select
+          name: default_transaction_type_id
+          label: Default transaction type
+          constraints:
+                - type: Integer
+
+        - type: Select
+          name: default_target_account_id
+          label: Default target account
+          constraints:
+                - type: Integer
+
+        - type: Select
+          name: default_source_account_id
+          label: Default source account
+          constraints:
+                - type: Integer
+
+        - type: Submit
+          name: submit
+          value: Create user
+
+filter:
+        - TrimEdges
+        - HTMLEscape

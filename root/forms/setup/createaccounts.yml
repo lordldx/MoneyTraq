@@ -1,0 +1,20 @@
+indicator: submit
+id: create_account_form
+
+elements:
+        - type: Text
+          name: description
+          id: description
+          label: Account name
+          constraints:
+                - Required
+                - type: Length
+                  max: 25
+
+        - type: Submit
+          name: submit
+          value: Create account
+
+filter:
+        - TrimEdges
+        - HTMLEscape

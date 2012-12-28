@@ -17,9 +17,16 @@ MYMETA.json
 nytprof.out
 pm_to_blib
 
-### Personal
+### Personal ###
+
 # log files
 *.log
+
 # local files
 init.sql
 *.db
+
+# migration files
+share/moneytraq-schema/*
+share/moneytraq-schema.db
+
