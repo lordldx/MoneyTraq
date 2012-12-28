@@ -68,6 +68,9 @@ sub createaccounts :Local :FormConfig {
 
   if ($form->submitted_and_valid) {
     $c->model('MoneyTraqDB::Accounts')->create({description => $form->param_value('description')});
+
+    # clear the form
+    $form->add_valid('description' => undef);
   }
 
   @{$c->stash->{accounts}} = $c->model('MoneyTraqDB::Accounts')->all;
@@ -94,6 +97,16 @@ sub createusers :Local :FormConfig {
                                                                     default_target_account => $form->param_value('default_target_account_id'),
                                                                     default_source_account => $form->param_value('default_source_account_id')
                                                                    }));
+
+    # clear form
+    $form->add_valid('username' => undef);
+    $form->add_valid('password' => undef);
+    $form->add_valid('first_name' => undef);
+    $form->add_valid('last_name' => undef);
+    $form->add_valid('role_id' => undef);
+    $form->add_valid('default_transaction_type_id' => undef);
+    $form->add_valid('default_target_account_id' => undef);
+    $form->add_valid('default_source_account_id' => undef);
   }
 
   # fill the select form fields
