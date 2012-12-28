@@ -1,5 +1,10 @@
 <!-- -*- mode: xml -*- -->
 [% META title = 'MoneyTraq::Setup' -%]
+<script type="text/javascript">
+  $(document).ready(function() {
+  $('#description').focus();
+  });
+</script>
 <div id="setup-left">
   <ul>
     <li class="inactive">Create database</li>

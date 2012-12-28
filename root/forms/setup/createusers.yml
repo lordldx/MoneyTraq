@@ -5,6 +5,7 @@ elements:
         - type: Text
           name: username
           label: Username
+          id: username
           constraints:
                 - Required
                 - type: Length

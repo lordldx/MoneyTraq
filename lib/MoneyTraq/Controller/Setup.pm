@@ -64,6 +64,9 @@ sub createdb :Local {
 sub createaccounts :Local :FormConfig {
   my ($self, $c) = @_;
 
+  # safety
+  $c->response->redirect($c->uri_for('index')) unless $self->DbFileExists;
+
   my $form = $c->stash->{form};
 
   if ($form->submitted_and_valid) {
@@ -79,6 +82,9 @@ sub createaccounts :Local :FormConfig {
 
 sub createusers :Local :FormConfig {
   my ($self, $c) = @_;
+
+  # safety
+  $c->response->redirect($c->uri_for('index')) unless ($self->DbFileExists && $self->DbContainsAccounts($c));
 
   my $form = $c->stash->{form};
 
