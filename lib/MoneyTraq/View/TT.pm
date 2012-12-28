@@ -2,6 +2,7 @@ package MoneyTraq::View::TT;
 
 use strict;
 use base 'Catalyst::View::TT';
+use MoneyTraq;
 
 __PACKAGE__->config({
                      INCLUDE_PATH => [
