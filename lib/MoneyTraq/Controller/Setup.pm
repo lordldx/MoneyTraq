@@ -143,7 +143,7 @@ sub DbContainsUsers :Private {
 sub DbContainsAdmin :Private {
   my ($self, $c) = @_;
 
-  return $self->DbContainsUsers($c) && $c->model('MoneyTraqDB::Users')->search_related_rs('user_roles', {role_id => $Roles::ADMIN})->count > 0;
+  return $self->DbContainsUsers($c) && $c->model('MoneyTraqDB::UserRoles')->search_rs({role_id => $MoneyTraq::Schema::Roles::ADMIN})->count > 0;
 }
 
 sub DbContainsAccounts :Private {
