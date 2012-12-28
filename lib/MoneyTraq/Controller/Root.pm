@@ -52,6 +52,7 @@ sub auto :Private {
     }
 
   } elsif ($c->controller ne $c->controller('Auth') &&
+           $c->controller ne $c->controller('Setup') &&
            !$c->user_exists) {
 
     # if the user has nog logged in yet, and the current controller is not the login one (Auth), then redirect to the login page

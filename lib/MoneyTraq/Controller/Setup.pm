@@ -26,18 +26,18 @@ Catalyst Controller.
 =cut
 
 sub index :Path :Args(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
 
-    # Step 1: CreateDB consists of three parts: creating the file, creating the schema and running the init script
-    if (!$self->DbFileExists) {
-      $c->response->redirect($c->uri_for('prerequisites'));
-    } elsif (!$self->DbContainsAccounts($c)) {
-      $c->response->redirect($c->uri_for('createaccounts'));
-    } elsif (!$self->DbContainsUsers($c)) {
-      $c->response->redirect($c->uri_for('createusers'));
-    } else {
-      $c->response->redirect($c->uri_for('/'));
-    }
+  # Step 1: CreateDB consists of three parts: creating the file, creating the schema and running the init script
+  if (!$self->DbFileExists) {
+    $c->response->redirect($c->uri_for('prerequisites'));
+  } elsif (!$self->DbContainsAccounts($c)) {
+    $c->response->redirect($c->uri_for('createaccounts'));
+  } elsif (!$self->DbContainsUsers($c)) {
+    $c->response->redirect($c->uri_for('createusers'));
+  } else {
+    $c->response->redirect($c->uri_for('/'));
+  }
 }
 
 sub prerequisites :Local {
@@ -79,24 +79,36 @@ sub createusers :Local :FormConfig {
 
   my $form = $c->stash->{form};
 
+  # process if the form was submitted
   if ($form->submitted_and_valid) {
-      my $user = $c->model('MoneyTraqDB::Users')->create({
-	  username => $form->param_value('username'),
-	  password => $form->param_value('password'),
-	  first_name => $form->param_value('first_name'),
-	  last_name => $form->param_value('last_name'),
-	  active => 1
-							 });
-      $user->add_to_roles({id => $form->param_value('role_id')});
-      $user->settings({
-	  default_transaction_type => $form->param_value('default_transaction_type'),
-	  default_target_account => $form->param_value('default_target_account'),
-	  default_source_account => $form->param_value('default_source_account')
-		      });
+    my $user = $c->model('MoneyTraqDB::Users')->create({
+                                                        username => $form->param_value('username'),
+                                                        password => $form->param_value('password'),
+                                                        first_name => $form->param_value('first_name'),
+                                                        last_name => $form->param_value('last_name'),
+                                                        active => 1
+                                                       });
+    $user->add_to_roles({id => $form->param_value('role_id')});
+    $user->settings($c->model('MoneyTraqDB::UserSettings')->create({
+                                                                    default_transaction_type => $form->param_value('default_transaction_type_id'),
+                                                                    default_target_account => $form->param_value('default_target_account_id'),
+                                                                    default_source_account => $form->param_value('default_source_account_id')
+                                                                   }));
   }
 
+  # fill the select form fields
+  my @roles = $c->model('MoneyTraqDB::Roles')->all;
+  my @accounts = $c->model('MoneyTraqDB::Accounts')->all;
+  my @transactionTypes = $c->model('MoneyTraqDB::TransactionTypes')->all;
+
+  $form->get_field('role_id')->options([map {value => $_->id, label => $_->role}, @roles]);
+  $form->get_field('default_transaction_type_id')->options([map {value => $_->id, label => $_->description}, @transactionTypes]);
+  $form->get_field('default_target_account_id')->options([map {value => $_->id, label => $_->description}, @accounts]);
+  $form->get_field('default_source_account_id')->options([map {value => $_->id, label => $_->description}, @accounts]);
+
+  # finish
   @{$c->stash->{users}} = $c->model('MoneyTraqDB::Users')->all;
-  $c->stash->{has_administrator} = $c->model('MoneyTraqDB::Users')->search_related_rs('user_roles', {role_id => $Roles::ADMIN})->count > 0;
+  $c->stash->{has_administrator} = $self->DbContainsAdmin($c);
   $c->stash->{template} = 'setup/createusers.tt2';
 }
 
@@ -112,6 +124,9 @@ sub IsNotSetUp :Private {
   # Does the db contain users?
   return 1 unless $self->DbContainsUsers($c);
 
+  # Does the db contain an admin?
+  return 1 unless $self->DbContainsAdmin($c);
+
   return 0;
 }
 
@@ -123,6 +138,12 @@ sub DbContainsUsers :Private {
   my ($self, $c) = @_;
 
   return $c->model('MoneyTraqDB::Users')->count > 0;
+}
+
+sub DbContainsAdmin :Private {
+  my ($self, $c) = @_;
+
+  return $self->DbContainsUsers($c) && $c->model('MoneyTraqDB::Users')->search_related_rs('user_roles', {role_id => $Roles::ADMIN})->count > 0;
 }
 
 sub DbContainsAccounts :Private {
