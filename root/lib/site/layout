@@ -1,9 +1,17 @@
 <!-- -*- mode: xml -*- -->
-<div class="ui-layout-north">[% PROCESS site/header %]</div>
-<div class="ui-layout-south">[% PROCESS site/footer %]</div>
-<div class="ui-layout-west">[% PROCESS site/nav %]</div>
-<div class="ui-layout-center">
-  <span class="message">[% message -%]</span>
-  <span class="error">[% error -%]</span>
-  [% content -%]
+<div class="row">
+	<div class="span10 offset1">
+		[% PROCESS site/header %]
+		<div class="row">
+			<div class="span3">[% PROCESS site/nav %]</div>
+			<div class="span7">
+	  			<span class="message">[% message -%]</span>
+  				<span class="error">[% error -%]</span>
+  				[% content -%]
+			</div>
+		</div>
+	</div>
+	<div class="span10">
+		[% PROCESS site/footer %]
+	</div>
 </div>
