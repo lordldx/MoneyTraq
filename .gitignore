@@ -30,3 +30,7 @@ init.sql
 share/moneytraq-schema/*
 share/moneytraq-schema.db
 
+# sublime text
+*.sublime-project
+*.sublime-workspace
+
