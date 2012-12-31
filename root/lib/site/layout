@@ -5,8 +5,21 @@
 			[% PROCESS site/header %]
 			<div class="row">
 				<div class="span12">
-		  			<span class="message">[% message -%]</span>
-	  				<span class="error">[% error -%]</span>
+
+					[% IF message.defined %]
+					<div class="alert alert-success">
+						<a href="#" class="close" data-dismiss="alert">&times;</a>
+						[% message -%]
+					</div>
+					[% END %]
+
+					[% IF error.defined %]
+					<div class="alert alert-error">
+						<a href="#" class="close" data-dismiss="alert">&times;</a>
+						[% error -%]
+					</div>
+					[% END %]
+
 	  				[% content -%]
 				</div>
 			</div>
