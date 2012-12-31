@@ -6,13 +6,13 @@
   });
 </script>
 <h1>Welcome, [% c.user.first_name %]</h1>
+<a href="[% c.uri_for('/transactions/add') %]" class="btn btn-info">Add Transaction</a>
 <table border="0" style="width: [% main.tablewidth -%];">
   <tr>
     <td style="text-align: left;"><a href="[% c.uri_for("/main/$prev.month/$prev.year") -%]">&lt;&lt; Previous month</a></td>
     <td style="text-align: right;"><a href="[% c.uri_for("/main/$next.month/$next.year") -%]">Next month &gt;&gt;</a></td>
   </tr>
 </table>
-<a href="[% c.uri_for('/transactions/add') %]">Add Transaction</a>
 <table id="data" class="table table-condensed table-bordered">
   <thead>
     <tr>
@@ -56,9 +56,9 @@
         [% attribs.join(', ') -%]
       </td>
       [% # IF transaction.user_id == c.user.id -%]            
-      <td><div class="buttonwrapper"><a href="[% c.uri_for("/transactiondetails/add/$transaction.id") -%]" class="squarebutton"><span>Add detail</span></a></div></td>
-      <td><div class="buttonwrapper"><a href="[% c.uri_for("/transactions/edit/$transaction.id") %]" class="squarebutton"><span>Edit</span></a></div></td>
-      <td><div class="buttonwrapper"><a href="[% c.uri_for("/transactions/delete/$transaction.id") %]" class="squarebutton"><span>Delete</span></a></div></td>
+      <td><a href="[% c.uri_for("/transactiondetails/add/$transaction.id") -%]" class="btn btn-info">Add detail</span></a></td>
+      <td><a href="[% c.uri_for("/transactions/edit/$transaction.id") %]" class="btn btn-warning">Edit</span></a></td>
+      <td><a href="[% c.uri_for("/transactions/delete/$transaction.id") %]" class="btn btn-danger">Delete</a></td>
       [% # ELSE %]
 <!--      <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -76,8 +76,8 @@
       <td class="transactionData">&nbsp;</td>
       <td>&nbsp;</td>
       [% # IF transaction.user_id == c.user.id %]
-      <td><div class="buttonwrapper"><a class="squarebutton" href="[% c.uri_for("/transactiondetails/edit/$detail.id") %]"><span>Edit</span></a></div></td>
-      <td><div class="buttonwrapper"><a class="squarebutton" href="[% c.uri_for("/transactiondetails/delete/$detail.id") %]"><span>Delete</span></a></div></td>
+      <td><a class="btn btn-warning" href="[% c.uri_for("/transactiondetails/edit/$detail.id") %]">Edit</a></td>
+      <td><a class="btn btn-danger" href="[% c.uri_for("/transactiondetails/delete/$detail.id") %]">Delete</a></td>
       [% # ELSE %]
 <!--      <td>&nbsp;</td>
       <td>&nbsp;</td> -->
