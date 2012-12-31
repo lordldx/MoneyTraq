@@ -4,8 +4,7 @@
 		<div class="span12">
 			[% PROCESS site/header %]
 			<div class="row">
-				<div class="span3">[% PROCESS site/nav %]</div>
-				<div class="span9">
+				<div class="span12">
 		  			<span class="message">[% message -%]</span>
 	  				<span class="error">[% error -%]</span>
 	  				[% content -%]
