@@ -5,24 +5,25 @@
   $(".transactiondetails").hide();
   });
 </script>
-<a href="[% c.uri_for('/transactions/add') %]" class="btn btn-info">Add Transaction</a>
-<table border="0" style="width: [% main.tablewidth -%];">
-  <tr>
-    <td style="text-align: left;"><a href="[% c.uri_for("/main/$prev.month/$prev.year") -%]">&lt;&lt; Previous month</a></td>
-    <td style="text-align: right;"><a href="[% c.uri_for("/main/$next.month/$next.year") -%]">Next month &gt;&gt;</a></td>
-  </tr>
-</table>
 <table id="data" class="table table-condensed table-bordered">
   <thead>
     <tr>
-      <th colspan="9" style="text-align: center;">Transactions in [% period.month_name -%] [% period.year -%]</td>
+      <th colspan="6" style="text-align: center;">Transactions in [% period.month_name -%] [% period.year -%]</th>
+      <td colspan="4" style="text-align: center;"><a href="[% c.uri_for('/transactions/add') %]" class="btn btn-info">Add Transaction</a></td>
+    </tr>
+    <tr>
+        <td colspan="10">
+          <a class="pull-left" href="[% c.uri_for("/main/$prev.month/$prev.year") -%]">&lt;&lt; Previous month</a>
+          <a class="pull-right" href="[% c.uri_for("/main/$next.month/$next.year") -%]">Next month &gt;&gt;</a>
+        </td>
     </tr>
     <tr>
       <th>Date</th>
       <th>Type</th>
       <th>Description</th>
-      <th>Account</th>
+      <th>Target account</th>
       <th>Amount</th>
+      <th>Attributes</th>
       <th colspan="4">&nbsp;</th>
     </tr>
   </thead>
@@ -109,18 +110,10 @@
     </tr>
   </tbody>
 </table>
-<table border="0" style="width: [% main.tablewidth -%];">
-  <tr>
-    <td style="text-align: center;">
-      [% IF c.action == 'main/index' %]
-      <a href="[% c.uri_for("/main/all/$period.month/$period.year") -%]">
-        Show all transactions in [% period.month_name -%] [% period.year -%]
-      </a>
-      [% ELSIF c.action == 'main/all' %]
-      <a href="[% c.uri_for("/main/$period.month/$period.year") -%]">
-        Show only 10 most recent transactions in [% period.month_name -%] [% period.year -%]
-      </a>
-      [% END %]
-    </td>
-  </tr>
-</table>
+<div style="text-align: center;">
+  [% IF c.action == 'main/index' %]
+    <a href="[% c.uri_for("/main/all/$period.month/$period.year") -%]">Show all transactions in [% period.month_name -%] [% period.year -%]</a>
+  [% ELSIF c.action == 'main/all' %]
+    <a href="[% c.uri_for("/main/$period.month/$period.year") -%]">Show only 10 most recent transactions in [% period.month_name -%] [% period.year -%]</a>
+  [% END %]
+</div>

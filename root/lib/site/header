@@ -1,10 +1,34 @@
-<!-- BEGIN site/header -->
-<h1 class="title">-[ [% template.title or site.title %] ]-</h1>
-<div id="login_data">
-[% IF c.user_exists %]
-Logged in as [% c.user.first_name %] [% c.user.last_name %]
-[% ELSE %]
-Not logged in
+[% IF c.namespace.match('main') %]
+  [% home_class = "active" %]
+  [% reports_class = "" %]
+  [% settings_class =  %]
+[% ELSIF c.namespace.match('reports') %]
+  [% home_class = "" %]
+  [% reports_class = "active" %]
+  [% settings_class = "" %]
+[% ELSIF c.namespace.match('settings') %]
+  [% home_class = "" %]
+  [% reports_class = "" %]
+  [% settings_class = "active" %]
 [% END %]
+<div class="navbar navbar-fixed-top navbar-inverse">			
+	<div class="navbar-inner">
+		<div class="container-fluid">
+		  	<a class="brand" href="#">MoneyTraq</a>
+		  	<ul class="nav">
+		    	<li class="[% home_class %]"><a href="[% c.uri_for('/main') %]">Home</a></li>
+		    	<li class="dropdown [% reports_class %]">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Reports
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				       	<li><a href="[% c.uri_for('/reports/endofmonth') %]">End of month</a></li>
+				       	<li><a href="[% c.uri_for('/reports/listing') %]">Listing</a></li>
+    				</ul>
+		    	</li>
+		    	<li class="[% settings_class %]"><a href="[% c.uri_for('/settings/usersettings') %]">Settings</a></li>
+		  	</ul>
+		</div>
+ 	</div>
 </div>
-<!-- END site/header -->

@@ -1,31 +1,27 @@
-<!-- -*- mode: xml -*- -->
-<div class="container">
-	<div class="row">
+[% PROCESS site/header %]
+<div class="container-fluid" style="margin-left: 5%; margin-right: 5%;">
+
+	<div class="row-fluid">
 		<div class="span12">
-			[% PROCESS site/header %]
-			<div class="row">
-				<div class="span12">
 
-					[% IF message.defined %]
-					<div class="alert alert-success">
-						<a href="#" class="close" data-dismiss="alert">&times;</a>
-						[% message -%]
-					</div>
-					[% END %]
-
-					[% IF error.defined %]
-					<div class="alert alert-error">
-						<a href="#" class="close" data-dismiss="alert">&times;</a>
-						[% error -%]
-					</div>
-					[% END %]
-
-	  				[% content -%]
-				</div>
+			[% IF message.defined %]
+			<div class="alert alert-success">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+				[% message -%]
 			</div>
-		</div>
-		<div class="span12">
-			[% PROCESS site/footer %]
+			[% END %]
+
+			[% IF error.defined %]
+			<div class="alert alert-error">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+				[% error -%]
+			</div>
+			[% END %]
+
+			[% content -%]
 		</div>
 	</div>
+
+	[% PROCESS site/footer %]
+
 </div>

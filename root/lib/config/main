@@ -13,7 +13,7 @@
    # define a data structure to hold sitewide data
    site = {
      title     => 'Catalyst::View::TTSite Example Page',
-     copyright => '2009 -[HoD]-soft',
+     copyright => '2009-2012 -[HoD]-soft',
    };
 
    # define a data structure for the mainpage
