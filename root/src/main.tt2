@@ -29,7 +29,7 @@
     [% END %]
 
     [% IF transaction.type.description == "Income" %]
-    [% type_class = "info" %]
+    [% type_class = "success" %]
     [% ELSE %]
     [% type_class = "error" %]
     [% END %]

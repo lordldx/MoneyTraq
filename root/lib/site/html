@@ -12,6 +12,11 @@
     <style type="text/css">@import "[% c.uri_for('/static/css/jquery.datepick.css') %]";</style>
     <style type="text/css">@import "[% c.uri_for('/static/css/flexigrid.css') %]";</style>
     <style type="text/css">@import "[% c.uri_for('/static/css/buttons.css') %]";</style>
+
+    [% IF controller == 'setup' %]
+    <style type="text/css">@import "[% c.uri_for('/static/css/setup.css') %]"</style>
+    [% END %]
+
     <style type="text/css">
       [% PROCESS css/ttsite.css %]
     </style>
