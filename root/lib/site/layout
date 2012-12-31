@@ -21,7 +21,5 @@
 			[% content -%]
 		</div>
 	</div>
-
-	[% PROCESS site/footer %]
-
 </div>
+[% PROCESS site/footer %]
