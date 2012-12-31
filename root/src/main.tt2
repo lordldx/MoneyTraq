@@ -5,7 +5,6 @@
   $(".transactiondetails").hide();
   });
 </script>
-<h1>Welcome, [% c.user.first_name %]</h1>
 <a href="[% c.uri_for('/transactions/add') %]" class="btn btn-info">Add Transaction</a>
 <table border="0" style="width: [% main.tablewidth -%];">
   <tr>

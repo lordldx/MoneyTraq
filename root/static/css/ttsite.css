@@ -1,9 +1,4 @@
 
-h1.title {
-    padding: 4px;
-    margin: 0px;
-    text-align: center;
-}
 
 .message {
     color: [% site.col.message %];
@@ -13,29 +8,6 @@ h1.title {
     color: [% site.col.error %];
 }
 
-input {
-      display: block;
-}
-
-select 
-{
-       display: block;
-}
-
-.login_submit {
-        margin-top: .5em;
-        display: block;
-}
-
-#login_data {
-            width: 100%;
-            text-align: right;
-}
-
-#copyright {
-           width: 100%;
-           text-align: center;
-}
 
 .transaction
 {
@@ -45,19 +17,6 @@ select
 .transactionData
 {
         padding-top: 4px;
-}
-
-#eomform
-{
-        width: 100%;
-        height: 1.5em;
-        margin-bottom: 0;
-}
-
-.eomfield
-{
-        float: left;
-        margin-right: 5px;
 }
 
 .new
@@ -81,44 +40,3 @@ select
         display: none;
 }
 
-.ok
-{
-    font-weight: bold;
-    color: green;
-}
-
-.not-ok
-{
-    font-weight: bold;
-    color: red;
-}
-
-.monospaced
-{
-    font-family: monospace;
-}
-
-#setup-left
-{
-    height: 100%;
-    padding-top: 2em;
-    width: 150px;
-    padding-right: 10px;
-    border-right: 1px double;
-    float: left;
-}
-
-#setup-right
-{
-    margin-left: 200px;
-}
-
-li.active
-{
-    font-weight: bold;
-}
-
-li.inactive
-{
-    color: grey;
-}
