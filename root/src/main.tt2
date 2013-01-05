@@ -8,7 +8,7 @@
 <table id="data" class="table table-condensed table-bordered">
   <thead>
     <tr>
-      <th colspan="6" style="text-align: center;">Transactions in [% period.month_name -%] [% period.year -%]</th>
+      <th colspan="6" style="text-align: center; vertical-align: middle;">Transactions in [% period.month_name -%] [% period.year -%]</th>
       <td colspan="4" style="text-align: center;"><a href="[% c.uri_for('/transactions/add') %]" class="btn btn-info">Add Transaction</a></td>
     </tr>
     <tr>

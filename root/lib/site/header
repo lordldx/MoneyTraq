@@ -29,6 +29,11 @@
 		    	</li>
 		    	<li class="[% settings_class %]"><a href="[% c.uri_for('/settings/usersettings') %]">Settings</a></li>
 		  	</ul>
+		  	<div class="pull-right" style="padding: 10px 0px 10px 20px; z-index:2000; color: #999; vertical-align: middle">
+		  		[% IF c.user_exists %]
+					[% c.user.first_name -%] [% c.user.last_name -%] <a href="[% c.uri_for('/auth/logout') %]" style="color: #999;">(Log off)</a>
+				[% END %]
+			</div>
 		</div>
  	</div>
 </div>

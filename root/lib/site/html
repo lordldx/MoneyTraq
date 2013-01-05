@@ -30,7 +30,7 @@
     </script>
 
   </head>
-  <body style="padding-top: 60px;">
+  <body>
     [% content %]
   </body>
 </html>
