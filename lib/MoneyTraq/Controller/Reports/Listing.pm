@@ -2,7 +2,7 @@ package MoneyTraq::Controller::Reports::Listing;
 
 use strict;
 use warnings;
-use base qw/Catalyst::Controller::HTML::FormFu/;
+use base qw/Catalyst::Controller::HTML::FormFu Catalyst::Controller::BindLex/;
 
 =head1 NAME
 
@@ -56,76 +56,52 @@ sub fillForm : Private {
 }
 
 sub getResults : Private {
-  my ($self, $c) = @_;
+    my ($self, $c) = @_;
+    my $form = $c->stash->{form};
 
-  my @andlist;
-  my $form = $c->stash->{form};
-  push @andlist, {'cancelled' => 0};
+    my %where;
 
+    my @transaction_types = $form->param_list('transaction_type');
+    $where{transaction_type_id} = \@transaction_types if @transaction_types;
 
-  my @transaction_types = $form->param_list('transaction_type');
-  if (@transaction_types) {
-    my $types = {-or => []};
-    push @{$types->{-or}}, {'transaction_type_id' => $_} foreach (@transaction_types);
-    push @andlist, $types;
-  }
+    my @accounts = $form->param_list('account');
+    $where{account_id} = \@accounts if @accounts;
 
-  my @accounts = $form->param_list('account');
-  if (@accounts) {
-    my $acc = {-or => []};
-    push @{$acc->{-or}}, {'account_id' => $_} foreach (@accounts);
-    push @andlist, $acc;
-  }
-
-  my $from = $form->param_value('dat_valid_from');
-  if (defined $from) {
-    push @andlist, {'dat_valid' => {'>=' => $from->date}};
-  }
-
-  my $until = $form->param_value('dat_valid_until');
-  if (defined $until) {
-    push @andlist, {'dat_valid' => {'<=' => $until->date}};
-  }
-
-  my @attributes = $form->param_list('attributes');
-  if (@attributes) {
-    my $att = {-or => []};
-    push @{$att->{-or}}, {'transaction_attributes.transaction_attribute_id' => $_} foreach (@attributes);
-    push @andlist, $att;
-  }
-
-
-  # actual query
-  my @transactions= $c->model('MoneyTraqDB::Transactions')->search(-and => \@andlist,
-                                                                              {
-                                                                               join => 'transaction_attributes',
-                                                                               order_by => 'dat_valid DESC, dat_entry DESC',
-                                                                               group_by => 'me.id'
-                                                                              });
-
-  # calculate totals, generate human-readable dates, and append them to each transaction object
-  my $total_in = 0;
-  my $total_out = 0;
-  foreach my $trans (@transactions) {
-    my $trans_total = 0;
-    foreach my $detail ($trans->details->all) {
-      $trans_total += $detail->amount;
+    my $from = $form->param_value('dat_valid_from');
+    my $until = $form->param_value('dat_valid_until');
+    if (defined $from || defined $until) {
+	my ($fromPart, $untilPart);
+	$where{dat_valid} = ['-and'];
+	push @{$where{dat_valid}}, {'>=', $from->date} if defined $from;
+	push @{$where{dat_valid}}, {'<=', $until->date} if defined $until;
     }
-    $trans->{total} = $trans_total;
-    $trans->{dat_valid_hr} = $trans->dat_valid->strftime('%d/%m/%Y');
 
-    $total_in += $trans_total if $trans->transaction_type_id == 1;
-    $total_out += $trans_total if $trans->transaction_type_id == 2;
-  }
+    my @attributes = $form->param_list('attributes');
+    $where{'transaction_attributes.transaction_attribute_id'} = \@attributes if @attributes;
 
-  # add variables to stash
-  $c->stash(
-            transactions => \@transactions,
-            total_in => $total_in,
-            total_out => $total_out
-           );
+    # actual query
+    my @transactions : Stashed = $c->model('MoneyTraqDB::Transactions')->search(\%where,
+										{
+										    join => 'transaction_attributes',
+										    order_by => 'dat_valid DESC, dat_entry DESC',
+										    group_by => 'me.id'
+										});
+    
+    # calculate totals, generate human-readable dates, and append them to each transaction object
+    my $total_in : Stashed = 0;
+    my $total_out : Stashed = 0;
+    foreach my $trans (@transactions) {
+	my $trans_total = 0;
+	foreach my $detail ($trans->details->all) {
+	    $trans_total += $detail->amount;
+	}
+	$trans->{total} = $trans_total;
+	$trans->{dat_valid_hr} = $trans->dat_valid->strftime('%d/%m/%Y');
+	
+	$total_in += $trans_total if $trans->transaction_type_id == 1;
+	$total_out += $trans_total if $trans->transaction_type_id == 2;
+    }
 }
-
 
 =head1 AUTHOR
 
