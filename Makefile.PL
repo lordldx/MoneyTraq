@@ -17,6 +17,7 @@ requires 'Catalyst::Plugin::StackTrace';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'Catalyst::View::TT';
 requires 'Catalyst::Controller::HTML::FormFu';
+requires 'Catalyst::Controller::BindLex';
 requires 'Cwd';
 requires 'DateTime::Format::SQLite';
 requires 'parent';
