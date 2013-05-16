@@ -3,10 +3,14 @@ package MoneyTraq::Model::MoneyTraqDB;
 use strict;
 use base 'Catalyst::Model::DBIC::Schema';
 
+# try to determine location of db. Yes, you may shoot me for this.
+my $dbLocation = __FILE__;
+$dbLocation =~ s/lib\/MoneyTraq\/Model\/MoneyTraqDB.pm/moneytraq.db/;
+
 __PACKAGE__->config(
     schema_class => 'MoneyTraq::Schema',
     connect_info => [
-        'dbi:SQLite:moneytraq.db',
+        'dbi:SQLite:' . $dbLocation,
     ],
 );
 

@@ -29,7 +29,7 @@ sub index :Path :Args(0) {
   my ( $self, $c ) = @_;
 
   # Step 1: CreateDB consists of three parts: creating the file, creating the schema and running the init script
-  if (!$self->DbFileExists) {
+  if (!$self->DbFileExists($c)) {
     $c->response->redirect($c->uri_for('prerequisites'));
   } elsif (!$self->DbContainsAccounts($c)) {
     $c->response->redirect($c->uri_for('createaccounts'));
@@ -43,9 +43,9 @@ sub index :Path :Args(0) {
 sub prerequisites :Local {
   my ($self, $c) = @_;
 
-  $c->stash->{can_write} = (-w getcwd());
+  $c->stash->{can_write} = (-w $c->path_to('.'));
   $c->stash->{current_user} = getlogin;
-  $c->stash->{current_dir} = getcwd;
+  $c->stash->{current_dir} = $c->path_to('.');
   $c->stash->{template} = 'setup/prerequisites.tt2';
 }
 
@@ -65,7 +65,7 @@ sub createaccounts :Local :FormConfig {
   my ($self, $c) = @_;
 
   # safety
-  $c->response->redirect($c->uri_for('index')) unless $self->DbFileExists;
+  $c->response->redirect($c->uri_for('index')) unless $self->DbFileExists($c);
 
   my $form = $c->stash->{form};
 
@@ -84,7 +84,7 @@ sub createusers :Local :FormConfig {
   my ($self, $c) = @_;
 
   # safety
-  $c->response->redirect($c->uri_for('index')) unless ($self->DbFileExists && $self->DbContainsAccounts($c));
+  $c->response->redirect($c->uri_for('index')) unless ($self->DbFileExists($c) && $self->DbContainsAccounts($c));
 
   my $form = $c->stash->{form};
 
@@ -135,7 +135,7 @@ sub IsNotSetUp :Private {
   my ($self, $c) = @_;
 
   # has the db been initialized
-  return 1 unless $self->DbFileExists;
+  return 1 unless $self->DbFileExists($c);
 
   # Does the db contain accounts?
   return 1 unless $self->DbContainsAccounts($c);
@@ -150,7 +150,9 @@ sub IsNotSetUp :Private {
 }
 
 sub DbFileExists :Private {
-  return -f 'moneytraq.db';
+  my($self, $c) = @_;
+
+  return -f $c->path_to('moneytraq.db');
 }
 
 sub DbContainsUsers :Private {
