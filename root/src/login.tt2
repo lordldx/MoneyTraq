@@ -1,6 +1,8 @@
 <!-- -*- mode: xml *-* -->
 [% META title = 'MoneyTraq::Login' %]
 
+<link href="[% c.uri_for('/static/css/auth-login.css') %]" rel="stylesheet" media="screen">
+
 <script type="text/javascript">
   $('document').ready(function() {
   $('#username').focus();

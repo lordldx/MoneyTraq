@@ -3,16 +3,16 @@ indicator: submit
 elements:
         - type: Text
           name: username
-          label: Username
           id: username
           attributes:
                 title: Username
+                placeholder: Username
 
         - type: Password
           name: password
-          label: Password
           attributes:
                 title: Password
+                placeholder: Password
 
         - type: Submit
           name: submit
