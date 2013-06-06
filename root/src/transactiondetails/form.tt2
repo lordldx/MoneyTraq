@@ -1,6 +1,8 @@
 <!-- -*- mode: xml -*- -->
 [% META title = 'MoneyTraq::Transaction Detail' %]
 
+<link href="[% c.uri_for('/static/css/transactiondetails-add.css') %]" rel="stylesheet" media="screen">
+
 <script type="text/javascript">
   $(document).ready(function () {
   $("input[name='amount']").focus();
@@ -12,4 +14,5 @@
   }
 </script>
 
+<h1>Add a new transaction detail</h1>
 [% form %]
