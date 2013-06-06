@@ -1,0 +1,15 @@
+form {
+	text-align: center;
+	padding-top: 5%;
+}
+
+form label {
+	display: inline-block;
+	width: 150px;
+	text-align: right;
+	padding-right: 5px;
+}
+
+h1 {
+	text-align: center;
+}

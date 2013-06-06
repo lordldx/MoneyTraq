@@ -102,6 +102,9 @@ img.datepick-trigger {
 	color: #fff;
 	border: 0px;
 	font-weight: bold;
+	height: auto;
+	width: auto;
+	padding: 0;
 }
 .datepick-header span {
 	position: relative;

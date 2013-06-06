@@ -1,6 +1,8 @@
 <!-- -*- mode: xml -*- -->
 [% META title = 'MoneyTraq::Transaction' %]
 
+<link href="[% c.uri_for('/static/css/transactions-add.css') %]" rel="stylesheet" media="screen">
+
 <script type="text/javascript">
   $(document).ready(function () {
   $("input[name='dat_valid']").datepick({dateFormat: 'dd/mm/yy'});
@@ -12,4 +14,5 @@
   });
 </script>
 
+<h1>Add a new transaction</h1>
 [% form %]
