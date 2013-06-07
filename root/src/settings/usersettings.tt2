@@ -1,6 +1,8 @@
 <!-- -*- mode: xml -*- -->
 [% META title = 'MoneyTraq::UserSettings' -%]
 
+<link href="[% c.uri_for('/static/css/settings-usersettings.css') %]" rel="stylesheet" media="screen">
+
 <script type="text/javascript">
   function submitPersonalInfo() {
   var first_name = document.getElementById('first_name').value;
