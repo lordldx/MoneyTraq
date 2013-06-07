@@ -1,5 +1,4 @@
 package MoneyTraq::Controller::Setup;
-use Cwd;
 use Moose;
 use namespace::autoclean;
 use DBIx::Class::Migration;
