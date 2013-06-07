@@ -1,6 +1,8 @@
 <!-- -*- mode: xml -*- -->
 [% META title = 'MoneyTraq::Listing' %]
 
+<link href="[% c.uri_for('/static/css/reports-listing.css') %]" rel="stylesheet" media="screen">
+
 <script type="text/javascript">
   $(document).ready(function () {
   $("input[name='dat_valid_from']").datepick({dateFormat: 'dd/mm/yy'});
@@ -8,22 +10,6 @@
 
   [% IF transactions.size > 0 %]
   $(".transactiondetails").hide();
-  $("#data").flexigrid({
-  height: 'auto',
-  striped: false,
-  title: "Result",
-  colModel: [
-  {display: 'Valid on', name : 'dat_valid', width : 150, sortable : false, align: 'center'},
-  {display: 'Type', name : 'type', width : 50, sortable : false, align: 'center'},
-  {display: 'Description', name : 'description', width : 150, sortable : false, align: 'left'},
-  {display: 'Target account', name : 'target_account', width : 150, sortable : false, align: 'left'},
-  {display: 'Total amount', name : 'total_amount', width : 100, sortable : false, align: 'center'},
-  {display: 'Attributes', name : 'attributes', width : 150, sortable : false, align: 'left'},
-  ],
-  resizable: false,
-  showToggleBtn: false
-  });
-
   $('#selectionContainer').hide();
   [% END %]
 
@@ -36,10 +22,26 @@
 </div>
 
 [% IF transactions.size > 0 %]
-<table id="data" class="flexigrid">
+<table id="data" class="table table-condensed table-bordered">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Target account</th>
+      <th>Amount</th>
+      <th>Attributes</th>
+    </tr>
+  </thead>
+
   <tbody>
     [% FOREACH transaction IN transactions %]
-    <tr onclick="toggle([% transaction.id %]);" class="transaction [% transaction.type.description %] [% extra_class %]" id="transaction_[% transaction.id %]">
+    [% IF transaction.type.description == "Income" %]
+    [% type_class = "success" %]
+    [% ELSE %]
+    [% type_class = "error" %]
+    [% END %]
+    <tr onclick="toggle([% transaction.id %]);" class="transaction [% type_class %] [% extra_class %]" id="transaction_[% transaction.id %]">
       <td class="transactionData">[% transaction.dat_valid.day_name %] [% transaction.dat_valid_hr | html %]</td>
       <td class="transactionData">[% transaction.type.description %]</td>
       <td class="transactionData">[% transaction.description %]</td>
