@@ -62,6 +62,7 @@ elements:
 
         - type: Submit
           name: submit
+          id: submit-user
           value: Create user
 
 filter:

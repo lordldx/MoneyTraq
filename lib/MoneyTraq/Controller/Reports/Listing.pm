@@ -2,7 +2,7 @@ package MoneyTraq::Controller::Reports::Listing;
 
 use strict;
 use warnings;
-use base qw/Catalyst::Controller::HTML::FormFu Catalyst::Controller::BindLex/;
+use base qw/Catalyst::Controller::HTML::FormFu/;
 
 =head1 NAME
 

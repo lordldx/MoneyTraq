@@ -1,28 +1,35 @@
 <!-- -*- mode: xml -*- -->
 [% META title = 'MoneyTraq::Setup' -%]
-<div id="setup-left">
-  <ul>
-    <li class="active">Create database</li>
-    <li class="inactive">Create accounts</li>
-    <li class="inactive">Create users</li>
-  </ul>
-</div>
-<div id="setup-right">
-  <h1>Welcome to MoneyTraq!</h1>
-  <p>I'm sure that you're eager to get started, but before you can start inputting all your financial transactions, we need to setup your system.</p>
-  <p>These are the requirements needed in order to get started</p>
-  <ul>
-    <li><span class="monospaced">[% current_dir %]</span> must be writable for user <span class="monospaced">[% current_user %]</span>: 
-    [% IF can_write %]
-    <span class="ok">OK</span>
-    [% ELSE %]
-    <span class="not-ok">Not OK</span>
-    [% END %]
-    </li>
-  </ul>
 
-  [% IF can_write %]
-  <p>Click next to create the database:</p>
-  <a href="[% c.uri_for("createdb") %]">Next</a>
-  [% END %]
+<link href="[% c.uri_for('/static/css/setup.css') %]" rel="stylesheet" media="screen">
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2" id="setup-left">
+      <ul>
+        <li class="active">Create database</li>
+        <li class="inactive">Create accounts</li>
+        <li class="inactive">Create users</li>
+      </ul>
+    </div>
+    <div class="span10">
+      <h1>Welcome to MoneyTraq!</h1>
+      <p>I'm sure that you're eager to get started, but before you can start inputting all your financial transactions, we need to setup your system.</p>
+      <p>These are the requirements needed in order to get started</p>
+      <ul>
+        <li><span class="monospaced">[% current_dir %]</span> must be writable for user <span class="monospaced">[% current_user %]</span>: 
+        [% IF can_write %]
+        <span class="ok">OK</span>
+        [% ELSE %]
+        <span class="not-ok">Not OK</span>
+        [% END %]
+        </li>
+      </ul>
+
+      [% IF can_write %]
+      <p>Click next to create the database:</p>
+      <a href="[% c.uri_for("createdb") %]">Next</a>
+      [% END %]
+    </div>
+  </div>
 </div>

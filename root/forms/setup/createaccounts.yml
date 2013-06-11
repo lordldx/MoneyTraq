@@ -5,7 +5,7 @@ elements:
         - type: Text
           name: description
           id: description
-          label: Account name
+          placeholder: Account name
           constraints:
                 - Required
                 - type: Length
