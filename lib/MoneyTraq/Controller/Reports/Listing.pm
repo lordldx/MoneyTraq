@@ -56,51 +56,58 @@ sub fillForm : Private {
 }
 
 sub getResults : Private {
-    my ($self, $c) = @_;
-    my $form = $c->stash->{form};
+  my ($self, $c) = @_;
+  my $form = $c->stash->{form};
 
-    my %where;
+  my %where;
 
-    my @transaction_types = $form->param_list('transaction_type');
-    $where{transaction_type_id} = \@transaction_types if @transaction_types;
+  # only show transactions that were not deleted!
+  $where{cancelled} = 0;
 
-    my @accounts = $form->param_list('account');
-    $where{account_id} = \@accounts if @accounts;
+  my @transaction_types = $form->param_list('transaction_type');
+  $where{transaction_type_id} = \@transaction_types if @transaction_types;
 
-    my $from = $form->param_value('dat_valid_from');
-    my $until = $form->param_value('dat_valid_until');
-    if (defined $from || defined $until) {
-	my ($fromPart, $untilPart);
-	$where{dat_valid} = ['-and'];
-	push @{$where{dat_valid}}, {'>=', $from->date} if defined $from;
-	push @{$where{dat_valid}}, {'<=', $until->date} if defined $until;
-    }
+  my @accounts = $form->param_list('account');
+  $where{account_id} = \@accounts if @accounts;
 
-    my @attributes = $form->param_list('attributes');
-    $where{'transaction_attributes.transaction_attribute_id'} = \@attributes if @attributes;
+  my $from = $form->param_value('dat_valid_from');
+  my $until = $form->param_value('dat_valid_until');
+  if (defined $from || defined $until) {
+   my ($fromPart, $untilPart);
+   $where{dat_valid} = ['-and'];
+   push @{$where{dat_valid}}, {'>=', $from->date} if defined $from;
+   push @{$where{dat_valid}}, {'<=', $until->date} if defined $until;
+ }
+
+ my @attributes = $form->param_list('attributes');
+ $where{'transaction_attributes.transaction_attribute_id'} = \@attributes if @attributes;
 
     # actual query
-    my @transactions : Stashed = $c->model('MoneyTraqDB::Transactions')->search(\%where,
-										{
-										    join => 'transaction_attributes',
-										    order_by => 'dat_valid DESC, dat_entry DESC',
-										    group_by => 'me.id'
-										});
+    my @transactions = $c->model('MoneyTraqDB::Transactions')->search(\%where,
+    {
+      join => 'transaction_attributes',
+      order_by => 'dat_valid DESC, dat_entry DESC',
+      group_by => 'me.id'
+    });
     
     # calculate totals, generate human-readable dates, and append them to each transaction object
-    my $total_in : Stashed = 0;
-    my $total_out : Stashed = 0;
+    my $total_in = 0;
+    my $total_out = 0;
     foreach my $trans (@transactions) {
-	my $trans_total = 0;
-	foreach my $detail ($trans->details->all) {
-	    $trans_total += $detail->amount;
-	}
-	$trans->{total} = $trans_total;
-	$trans->{dat_valid_hr} = $trans->dat_valid->strftime('%d/%m/%Y');
-	
-	$total_in += $trans_total if $trans->transaction_type_id == 1;
-	$total_out += $trans_total if $trans->transaction_type_id == 2;
-    }
+     my $trans_total = 0;
+     foreach my $detail ($trans->details->all) {
+       $trans_total += $detail->amount;
+     }
+      $trans->{total} = $trans_total;
+      $trans->{dat_valid_hr} = $trans->dat_valid->strftime('%d/%m/%Y');
+
+      $total_in += $trans_total if $trans->transaction_type_id == 1;
+      $total_out += $trans_total if $trans->transaction_type_id == 2;
+  }
+
+  $c->stash(transactions => @transactions,
+      total_in => $total_in,
+      total_out => $total_out);
 }
 
 =head1 AUTHOR
