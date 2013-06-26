@@ -23,6 +23,7 @@ requires 'DateTime::Format::SQLite';
 requires 'parent';
 requires 'Config::General';
 requires 'DBIx::Class::Migration';
+requires 'Catalyst::Action::REST' => '1.11';
 catalyst;
 
 install_script glob('script/*.pl');
