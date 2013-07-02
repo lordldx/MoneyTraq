@@ -1,5 +1,5 @@
 [% PROCESS site/header %]
-<div class="container-fluid" style="margin-left: 5%; margin-right: 5%; padding-top: 60px;">
+<div class="container-fluid" style="margin-left: 5%; margin-right: 5%; padding-top: 60px; padding-bottom: 3em;">
 
 	<div class="row-fluid">
 		<div class="span12">
