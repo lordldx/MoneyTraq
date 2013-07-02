@@ -105,7 +105,7 @@ sub getResults : Private {
       $total_out += $trans_total if $trans->transaction_type_id == 2;
   }
 
-  $c->stash(transactions => @transactions,
+  $c->stash(transactions => \@transactions,
       total_in => $total_in,
       total_out => $total_out);
 }
