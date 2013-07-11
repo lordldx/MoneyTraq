@@ -24,6 +24,8 @@ requires 'parent';
 requires 'Config::General';
 requires 'DBIx::Class::Migration';
 requires 'Catalyst::Action::REST' => '1.11';
+requires 'Catalyst::Authentication::Credential::HTTP' => '1.015';
+requires 'JSON' => '2.59';
 catalyst;
 
 install_script glob('script/*.pl');
