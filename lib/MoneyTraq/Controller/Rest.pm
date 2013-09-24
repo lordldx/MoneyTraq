@@ -5,9 +5,15 @@ use warnings;
 use base qw/Catalyst::Controller::REST/;
 use DateTime;
 
-# transaction object
+# REST objects
 sub transaction : Local : ActionClass('REST') {}
 sub transactionDetail : Local : ActionClass('REST') {}
+sub currentIncome : Local : ActionClass('REST') {}
+sub currentExpense : Local : ActionClass('REST') {}
+sub transactionTypeList : Local : ActionClass('REST') {}
+sub accountList : Local : ActionClass('REST') {}
+sub transactionAttributeList : Local : ActionClass('REST') {}
+sub version : Local : ActionClass('REST') {}
 
 sub transaction_PUT {
 	my ($self, $c) = @_;
@@ -65,6 +71,119 @@ sub transactionDetail_PUT {
   } else {
     $self->status_bad_request($c, message => "Missing arguments");
   }
+}
+
+sub currentIncome_GET {
+  my ($self, $c) =  @_;
+
+  $c->authenticate({}, 'http');
+
+  my $transactions = $self->GetThisMonthsIncomeTransactions($c);
+  if (defined $transactions) {
+    my $currentIncome = 0;
+    $currentIncome += $_->getTotal() foreach (@$transactions);
+    $self->status_ok($c, entity => {
+                                    success => 1,
+                                    currentIncome => $currentIncome
+                                   })
+  } else {
+    $self->status_bad_request($c, message => "Failed to retrieve transactions.");
+  }
+}
+
+sub currentExpense_GET {
+  my ($self, $c) =  @_;
+
+  $c->authenticate({}, 'http');
+
+  my $transactions = $self->GetThisMonthsExpenseTransactions($c);
+  if (defined $transactions) {
+    my $currentExpense = 0;
+    $currentExpense += $_->getTotal() foreach (@$transactions);
+    $self->status_ok($c, entity => {
+                                    success => 1,
+                                    currentExpense => $currentExpense
+                                   })
+  } else {
+    $self->status_bad_request($c, message => "Failed to retrieve transactions.");
+  }
+}
+
+sub transactionTypeList_GET {
+  my ($self, $c) =  @_;
+
+  $c->authenticate({}, 'http');
+
+  return $self->status_ok($c, entity => {
+                                         success => 1,
+                                         transactionTypeList => $c->model('MoneyTraqDB::TransactionTypes')->all
+                                        });
+}
+
+sub accountList_GET {
+  my ($self, $c) =  @_;
+
+  $c->authenticate({}, 'http');
+
+  return $self->status_ok($c, entity => {
+                                         success => 1,
+                                         accountList => $c->model('MoneyTraqDB::Accounts')->all
+                                        });
+}
+
+sub transactionAttributeList_GET {
+  my ($self, $c) =  @_;
+
+  $c->authenticate({}, 'http');
+
+  return $self->status_ok($c, entity => {
+                                         success => 1,
+                                         transactionAttributeList => $c->model('MoneyTraqDB::TransactionAttributes')->all
+                                        });
+}
+
+sub version_GET {
+  my ($self, $c) = @_;
+
+  # no authentication!
+
+  return $self->status_ok($c, entity => {
+                                         success => 1,
+                                         version => $c->config->{version}
+                                        });
+}
+
+sub GetThisMonthsIncomeTransactions {
+  my ($self, $c) = @_;
+  return $self->GetThisMonthsTransactions(1);
+}
+
+sub GetThisMonthsExpenseTransactions {
+  my ($self, $c) = @_;
+  return $self->GetThisMonthsTransactions(2);
+}
+
+sub GetThisMonthsTransactions {
+  my ($self, $c, $type) = @_;
+
+  my $now = DateTime->now;
+  my $beginningOfMonth = DateTime->new(year => $now->year,
+                                       month => $now->month,
+                                       day => 1);
+  my $endOfMonth = DateTime->new(year => $now->year,
+                                 month => $now->month,
+                                 day => 1);
+  $endOfMonth->add(month => 1);
+
+  my @transactions = $c->model('MoneyTraqDB::Transactions')->search({
+                                                                     cancelled => 0,
+                                                                     dat_valid => {
+                                                                                   '>=' => $beginningOfMonth->date,
+                                                                                   '<' => $endOfMonth->date
+                                                                                  },
+                                                                     transaction_type_id => $type,
+                                                                    });
+  return \@transactions;
 }
 
 sub ValidateTransactionData {
