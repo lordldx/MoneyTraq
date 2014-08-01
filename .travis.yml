@@ -7,5 +7,5 @@ perl:
 before_install: 
   - 'cpanm -i --notest Module::Install::Catalyst'
   - 'cpanm -i --notest Catalyst::Devel'
-before_script: 'dbic-migration --schema_class MoneyTraq::Schema --target_dir ./share/migrations -Ilib install'
+before_script: 'dbic-migration --schema_class MoneyTraq::Schema --target_dir ./share -Ilib install'
 after_failure: 'cat /home/travis/.cpanm/build.log'
