@@ -27,4 +27,14 @@ __PACKAGE__->has_many(user_settings_source => 'MoneyTraq::Schema::UserSettings',
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
+
+sub TO_JSON {
+	my $self = shift;
+
+	return {
+		id => $self->id,
+		description => $self->description
+	};
+}
+
 1;

@@ -116,7 +116,7 @@ sub transactionTypeList_GET {
 
   return $self->status_ok($c, entity => {
                                          success => 1,
-                                         transactionTypeList => $c->model('MoneyTraqDB::TransactionTypes')->all
+                                         transactionTypeList => [$c->model('MoneyTraqDB::TransactionTypes')->all]
                                         });
 }
 
@@ -127,7 +127,7 @@ sub accountList_GET {
 
   return $self->status_ok($c, entity => {
                                          success => 1,
-                                         accountList => $c->model('MoneyTraqDB::Accounts')->all
+                                         accountList => [$c->model('MoneyTraqDB::Accounts')->all]
                                         });
 }
 
@@ -138,7 +138,7 @@ sub transactionAttributeList_GET {
 
   return $self->status_ok($c, entity => {
                                          success => 1,
-                                         transactionAttributeList => $c->model('MoneyTraqDB::TransactionAttributes')->all
+                                         transactionAttributeList => [$c->model('MoneyTraqDB::TransactionAttributes')->all]
                                         });
 }
 
