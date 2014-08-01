@@ -13,6 +13,7 @@ requires 'Catalyst::Plugin::DateTime';
 requires 'Catalyst::Plugin::Session::State::Cookie';
 requires 'Catalyst::Plugin::Session::Store::File';
 requires 'Catalyst::Plugin::Authorization::ACL';
+requires 'Catalyst::Plugin::Authorization::Roles';
 requires 'Catalyst::Plugin::StackTrace';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'Catalyst::View::TT';
