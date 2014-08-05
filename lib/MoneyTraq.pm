@@ -24,7 +24,7 @@ use Catalyst qw/ConfigLoader
                 Session::Store::File
                 Session::State::Cookie
                 DateTime/;
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 
 # Configure the application. 
 #
@@ -36,6 +36,7 @@ our $VERSION = '0.01';
 # local deployment.
 
 __PACKAGE__->config( name => 'MoneyTraq',
+                     version => $VERSION,
                      'Model::Schema' => {
                                          traits => ['FromMigration'],
                                          schema_class => 'MoneyTraq::Schema',
@@ -58,7 +59,21 @@ __PACKAGE__->config( name => 'MoneyTraq',
                                                                       role_relation => 'roles',
                                                                       role_field => 'role'
                                                                      }
-                                                           }
+                                                           },
+                                                    http => {
+                                                      credential => {
+                                                        class => 'HTTP',
+                                                        type => 'basic',
+                                                        password_type => 'clear',
+                                                        password_field => 'password'
+                                                        },
+                                                      store => {
+                                                        class => 'DBIx::Class',
+                                                        user_class => 'MoneyTraqDB::Users',
+                                                        role_relation => 'roles',
+                                                        role_field => 'role'
+                                                        }
+                                                    }
                                                   }
                                        },
                      session => {

@@ -23,4 +23,13 @@ __PACKAGE__->many_to_many(transactions => 'transactions_attributes', 'transactio
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
+
+sub TO_JSON {
+	my $self = shift;
+
+	return {
+		id => $self->id,
+		description => $self->description
+	};
+}
 1;

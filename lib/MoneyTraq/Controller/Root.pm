@@ -45,7 +45,10 @@ sub auto :Private {
 
   if ($c->controller('Setup')->IsNotSetUp($c)) {
 
-    if ($c->controller ne $c->controller('Setup')) {
+    if ($c->controller eq $c->controller('Rest')) {
+      $c->response->redirect($c->uri_for('/rest/notsetup'));
+    }
+    elsif ($c->controller ne $c->controller('Setup')) {
       # if the app has not been setup yet, then set it up!
       $c->response->redirect($c->uri_for('/setup'));
       $proceed = 0;
@@ -53,6 +56,7 @@ sub auto :Private {
 
   } elsif ($c->controller ne $c->controller('Auth') &&
            $c->controller ne $c->controller('Setup') &&
+           $c->controller ne $c->controller('Rest') &&
            !$c->user_exists) {
 
     # if the user has nog logged in yet, and the current controller is not the login one (Auth), then redirect to the login page
