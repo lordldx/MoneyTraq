@@ -31,7 +31,7 @@ sub transaction_POST {
                                                                       user_id => $c->user()->id,
                                                                      });
     #  - transaction_attributes
-    foreach ($c->req->data->{attributes}) {
+    foreach (@{$c->req->data->{attributes}}) {
       $c->log->debug("Value of transaction_attribute_id is" . $_);
       $c->model('MoneyTraqDB::TransactionsTransactionAttributes')->create({
                                                                            transaction_id => $transaction->id,
