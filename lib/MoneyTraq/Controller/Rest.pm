@@ -15,7 +15,7 @@ sub accountList : Local : ActionClass('REST') {}
 sub transactionAttributeList : Local : ActionClass('REST') {}
 sub version : Local : ActionClass('REST') {}
 
-sub transaction_PUT {
+sub transaction_POST {
 	my ($self, $c) = @_;
 
 	$c->authenticate({}, 'http');
@@ -30,6 +30,13 @@ sub transaction_PUT {
                                                                       cancelled => 0,
                                                                       user_id => $c->user()->id,
                                                                      });
+    #  - transaction_attributes
+    foreach ($c->req->data->{attributes}) {
+      $c->model('MoneyTraqDB::TransactionsTransactionAttributes')->create({
+                                                                           transaction_id => $transaction->id,
+                                                                           transaction_attribute_id => $_
+                                                                          });
+    }
 
     $self->status_created($c, {
                                location => "not provided",
@@ -45,7 +52,7 @@ sub transaction_PUT {
   }
 }
 
-sub transactionDetail_PUT {
+sub transactionDetail_POST {
   my ($self, $c) = @_;
 
   $c->authenticate({}, 'http');
